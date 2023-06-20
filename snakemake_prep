@@ -164,3 +164,53 @@ rule samtools_index:
 
 #Executing, we create a visualization of the DAG using the dot command provided by Graphviz.
 $ snakemake --dag sorted_reads/{A,B}.bam.bai | dot -Tsvg > dag.svg
+
+#For multiple files in gene analysis
+#Step 5: Calling genomic variants
+#For the variant calling, Snakemake provides a helper function for collecting input files that helps us to describe the aggregation in this step. 
+# in rules: expand("sorted_reads/{sample}.bam", sample=SAMPLES), i.e. ["sorted_reads/A.bam", "sorted_reads/B.bam"]
+
+#the function is particularly useful when the pattern contains multiple wildcards. For example,
+expand("sorted_reads/{sample}.{replicate}.bam", sample=SAMPLES, replicate=[0, 1])
+#would create the product of all elements of SAMPLES and the list [0, 1], yielding ["sorted_reads/A.0.bam", "sorted_reads/A.1.bam", "sorted_reads/B.0.bam", "sorted_reads/B.1.bam"]
+
+rule bcftools_call:
+    input:
+        fa="data/genome.fa",
+        bam=expand("sorted_reads/{sample}.bam", sample=SAMPLES),
+        bai=expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)
+    output:
+        "calls/all.vcf"
+    shell:
+        "bcftools mpileup -f {input.fa} {input.bam} | "
+        "bcftools call -mv - > {output}"
+
+#Step 6: Use custom scripts
+#you need to create the .py file yourself
+rule plot_quals:
+    input:
+        "calls/all.vcf"
+    output:
+        "plots/quals.svg"
+    script:
+        "scripts/plot-quals.py"
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from pysam import VariantFile
+
+quals = [record.qual for record in VariantFile(snakemake.input[0])]
+plt.hist(quals)
+
+plt.savefig(snakemake.output[0])
+
+#Step 7 add a target rule
+#Here, this means that we add a rule
+
+rule all:
+    input:
+        "plots/quals.svg"
+#to the top of our workflow. When executing Snakemake with
+$ snakemake -n
+#the execution plan for creating the file plots/quals.svg, which contains and summarizes all our results
