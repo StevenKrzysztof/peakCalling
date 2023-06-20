@@ -13,7 +13,9 @@
 
 #to update anything in the linux, copy file by 
 $ cp -r /mnt/c/Users/zwang/wzyBest/practice_codes/Snakemake/Snakefile ~/snakemake-tutorial
-
+#edit a file content
+$nano file
+#use ctrl o to store and ctrl x to exit
 
 #set up the environment
 #Windows Subsystem for Linux: If you use Windows 10, you can set up the Windows Subsystem for Linux (WSL) to natively run linux applications. Install the WSL following the instructions in the WSL Documentation. You can chose any Linux distribution available for the WSL, but the most popular and accessible one is Ubuntu. Start the WSL and set up your account; now, you can follow the steps of our tutorial from within your Linux environment in the WSL.
@@ -89,3 +91,5 @@ $ -j: run multiple jobs in parallel(discuss later)
 #if you have multiple snakefiles, how to run? example.
 #if you have a snakefile and a my_snakefile.smk, run my_snakefile.smk with the following line
 $ snakemake --cores 1 --snakefile my_snakefile.smk mapped_reads/A.bam
+
+
