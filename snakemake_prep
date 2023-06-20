@@ -19,3 +19,35 @@
 
 $ curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o Mambaforge-Linux-x86_64.sh
 $ bash Mambaforge-Linux-x86_64.sh
+
+#Step 2: Preparing a working directory
+#First, create a new directory snakemake-tutorial at a place you can easily remember and change into that directory in your terminal:
+
+$ mkdir snakemake-tutorial
+$ cd snakemake-tutorial
+
+#First, we download some example data on which the workflow shall be executed:
+
+$ curl -L https://api.github.com/repos/snakemake/snakemake-tutorial-data/tarball -o snakemake-tutorial-data.tar.gz
+#Next we extract the data. On Linux, run
+
+$ tar --wildcards -xf snakemake-tutorial-data.tar.gz --strip 1 "*/data" "*/environment.yaml"
+#This will create a folder data and a file environment.yaml in the working directory.
+
+#Step 3: Creating an environment with the required software
+
+$ conda install -n base -c conda-forge mamba
+
+#Make sure to activate the conda base environment with
+
+$ conda activate base
+#The environment.yaml file that you have obtained with the previous step (Step 2) can be used to install all required software into an isolated Conda environment with the name snakemake-tutorial via
+
+$ mamba env create --name snakemake-tutorial --file environment.yaml
+If you don’t have the Mamba command because you used a different conda distribution than Mambaforge, you can also first install Mamba (which is a faster and more robust replacement for Conda) in your base environment with
+
+#Step 4: Activating the environment
+#To activate the snakemake-tutorial environment, execute
+
+$ conda activate snakemake-tutorial
+$ snakemake --help
