@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # download & compress public datasets ------------------------------------------------------------------------
+#use the bash:
+bash /mnt/d/peakCalling/dataPreparation.sh
 
 # Cut&Tag paper by Henikoff lab using K562 cells + histone mark.
 
