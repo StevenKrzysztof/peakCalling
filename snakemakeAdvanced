@@ -1,0 +1,22 @@
+@Author: Steve Wong
+
+#some basic operating commands
+#activate the virtual environment
+$ conda activate snakemake-tutorial
+#generate snake output
+$ snakemake --cores 1 {output}
+#with a specified snake file
+snakemake --cores 1 --snakefile {filename} {output}
+#to update anything in the linux, copy file by 
+$ cp -r /mnt/c/Users/zwang/wzyBest/practice_codes/Snakemake/Snakefile ~/snakemake-tutorial
+#backward
+$ cp -r ~/snakemake-tutorial /mnt/c/Users/zwang/wzyBest/practice_codes/Snakemake/Snakefile
+#edit a file content
+$ nano file
+#use ctrl o to store and ctrl x to exit
+#creat an empty file or update timestamp
+$ touch filename
+#show the content
+$ cat
+#Change the working permit:
+$ chmod -R 777 + file
