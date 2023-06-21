@@ -20,6 +20,8 @@ $ snakemake --cores 1 {output}
 snakemake --cores 1 --snakefile {filename} {output}
 #to update anything in the linux, copy file by 
 $ cp -r /mnt/c/Users/zwang/wzyBest/practice_codes/Snakemake/Snakefile ~/snakemake-tutorial
+#backward
+$ cp -r ~/snakemake-tutorial /mnt/c/Users/zwang/wzyBest/practice_codes/Snakemake/Snakefile
 #edit a file content
 $ nano file
 #use ctrl o to store and ctrl x to exit
