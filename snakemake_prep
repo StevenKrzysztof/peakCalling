@@ -494,3 +494,28 @@ rule plot_quals:
         "plots/quals.svg"
     script:
         "scripts/plot-quals.py"
+
+#Additional things
+#Benchmarking
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        lambda wildcards: config["samples"][wildcards.sample]
+    output:
+        temp("mapped_reads/{sample}.bam")
+    params:
+        rg="@RG\tID:{sample}\tSM:{sample}"
+    log:
+        "logs/bwa_mem/{sample}.log"
+    benchmark:
+        "benchmarks/{sample}.bwa.benchmark.txt"
+    threads: 8
+    shell:
+        "(bwa mem -R '{params.rg}' -t {threads} {input} | "
+        "samtools view -Sb - > {output}) 2> {log}"
+
+#benchmarking allows repeat one command several times with: 
+$ repeat("benchmarks/{sample}.bwa.benchmark.txt", 3)
+#When a job derived from the rule is executed, Snakemake will measure the wall clock time and memory usage (in MiB) and store it in the file in tab-delimited format. 
+#It is possible to repeat a benchmark multiple times in order to get a sense for the variability of the measurements
+
