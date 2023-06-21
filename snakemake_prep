@@ -29,6 +29,9 @@ $ nano file
 $ touch filename
 #show the content
 $ cat
+#Change the working permit:
+$ chmod -R 777 + file
+
 
 
 
@@ -189,6 +192,7 @@ rule bcftools_call:
 
 #Step 6: Use custom scripts
 #you need to create the .py file yourself
+# the script logic is separated from the workflow logic 
 rule plot_quals:
     input:
         "calls/all.vcf"
@@ -197,6 +201,8 @@ rule plot_quals:
     script:
         "scripts/plot-quals.py"
 
+#script
+'''
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -206,9 +212,13 @@ quals = [record.qual for record in VariantFile(snakemake.input[0])]
 plt.hist(quals)
 
 plt.savefig(snakemake.output[0])
+'''
 
 #Step 7 add a target rule
 #Here, this means that we add a rule
+#Apart from filenames, Snakemake also accepts rule names as targets if the requested rule does not have wildcards. 
+#Hence, it is possible to write target rules collecting particular subsets of the desired results or all results. 
+#If no target is given at the command line, Snakemake will define the first rule of the Snakefile as the target. 
 
 rule all:
     input:
@@ -216,3 +226,75 @@ rule all:
 #to the top of our workflow. When executing Snakemake with
 $ snakemake -n
 #the execution plan for creating the file plots/quals.svg, which contains and summarizes all our results
+
+
+#total workflow
+SAMPLES = ["A", "B"]
+
+
+rule all:
+    input:
+        "plots/quals.svg"
+
+
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        "data/samples/{sample}.fastq"
+    output:
+        "mapped_reads/{sample}.bam"
+    shell:
+        "bwa mem {input} | samtools view -Sb - > {output}"
+
+
+rule samtools_sort:
+    input:
+        "mapped_reads/{sample}.bam"
+    output:
+        "sorted_reads/{sample}.bam"
+    shell:
+        "samtools sort -T sorted_reads/{wildcards.sample} "
+        "-O bam {input} > {output}"
+
+
+rule samtools_index:
+    input:
+        "sorted_reads/{sample}.bam"
+    output:
+        "sorted_reads/{sample}.bam.bai"
+    shell:
+        "samtools index {input}"
+
+
+rule bcftools_call:
+    input:
+        fa="data/genome.fa",
+        bam=expand("sorted_reads/{sample}.bam", sample=SAMPLES),
+        bai=expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)
+    output:
+        "calls/all.vcf"
+    shell:
+        "bcftools mpileup -f {input.fa} {input.bam} | "
+        "bcftools call -mv - > {output}"
+
+
+rule plot_quals:
+    input:
+        "calls/all.vcf"
+    output:
+        "plots/quals.svg"
+    script:
+        "scripts/plot-quals.py"
+
+#script
+'''
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from pysam import VariantFile
+
+quals = [record.qual for record in VariantFile(snakemake.input[0])]
+plt.hist(quals)
+
+plt.savefig(snakemake.output[0])
+'''
