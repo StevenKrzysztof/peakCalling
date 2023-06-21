@@ -346,3 +346,151 @@ rule bcftools_call:
     shell:
         "bcftools mpileup -f {input.fa} {input.bam} | "
         "bcftools call -mv - > {output}"
+
+
+#Rule parameters
+#define arbitrary parameters for rules with the params directive. 
+#Here it is reasonable to annotate aligned reads with so-called read groups, that contain metadata like the sample name.
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs
+    output:
+        "mapped_reads/{sample}.bam"
+    params:
+        rg=r"@RG\tID:{sample}\tSM:{sample}"
+    threads: 8
+    shell:
+        "bwa mem -R '{params.rg}' -t {threads} {input} | samtools view -Sb - > {output}"
+
+#Log
+#store the logging output of each job into a separate file, instead of just printing all logging output to the terminal
+#The shell command is modified to collect STDERR output of both bwa and samtools and pipe it into the file referred to by {log}.
+#Log files must contain exactly the same wildcards as the output files to avoid file name clashes between different jobs of the same rule.
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs
+    output:
+        "mapped_reads/{sample}.bam"
+    params:
+        rg=r"@RG\tID:{sample}\tSM:{sample}"
+    log:
+        "logs/bwa_mem/{sample}.log"
+    threads: 8
+    shell:
+        "(bwa mem -R '{params.rg}' -t {threads} {input} | "
+        "samtools view -Sb - > {output}) 2> {log}"
+
+#Temporary and protected files
+#To save disk space, you can mark output files as temporary.
+
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs
+    output:
+        temp("mapped_reads/{sample}.bam")
+    params:
+        rg=r"@RG\tID:{sample}\tSM:{sample}"
+    log:
+        "logs/bwa_mem/{sample}.log"
+    threads: 8
+    shell:
+        "(bwa mem -R '{params.rg}' -t {threads} {input} | "
+        "samtools view -Sb - > {output}) 2> {log}"
+
+#This results in the deletion of the BAM file once the corresponding samtools_sort job has been executed.
+
+#Since the creation of BAM files via read mapping and sorting is computationally expensive, it is reasonable to protect the final BAM 
+rule samtools_sort:
+    input:
+        "mapped_reads/{sample}.bam"
+    output:
+        protected("sorted_reads/{sample}.bam")
+    shell:
+        "samtools sort -T sorted_reads/{wildcards.sample} "
+        "-O bam {input} > {output}"
+
+#summary
+#config.yaml configuration file:
+
+samples:
+    A: data/samples/A.fastq
+    B: data/samples/B.fastq
+
+prior_mutation_rate: 0.001
+
+
+##Snakefile looks like this:
+
+configfile: "config.yaml"
+
+
+rule all:
+    input:
+        "plots/quals.svg"
+
+
+def get_bwa_map_input_fastqs(wildcards):
+    return config["samples"][wildcards.sample]
+
+
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs
+    output:
+        temp("mapped_reads/{sample}.bam")
+    params:
+        rg=r"@RG\tID:{sample}\tSM:{sample}"
+    log:
+        "logs/bwa_mem/{sample}.log"
+    threads: 8
+    shell:
+        "(bwa mem -R '{params.rg}' -t {threads} {input} | "
+        "samtools view -Sb - > {output}) 2> {log}"
+
+
+rule samtools_sort:
+    input:
+        "mapped_reads/{sample}.bam"
+    output:
+        protected("sorted_reads/{sample}.bam")
+    shell:
+        "samtools sort -T sorted_reads/{wildcards.sample} "
+        "-O bam {input} > {output}"
+
+
+rule samtools_index:
+    input:
+        "sorted_reads/{sample}.bam"
+    output:
+        "sorted_reads/{sample}.bam.bai"
+    shell:
+        "samtools index {input}"
+
+
+rule bcftools_call:
+    input:
+        fa="data/genome.fa",
+        bam=expand("sorted_reads/{sample}.bam", sample=config["samples"]),
+        bai=expand("sorted_reads/{sample}.bam.bai", sample=config["samples"])
+    output:
+        "calls/all.vcf"
+    params:
+        rate=config["prior_mutation_rate"]
+    log:
+        "logs/bcftools_call/all.log"
+    shell:
+        "(bcftools mpileup -f {input.fa} {input.bam} | "
+        "bcftools call -mv -P {params.rate} - > {output}) 2> {log}"
+
+
+rule plot_quals:
+    input:
+        "calls/all.vcf"
+    output:
+        "plots/quals.svg"
+    script:
+        "scripts/plot-quals.py"
