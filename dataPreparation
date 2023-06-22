@@ -24,9 +24,9 @@ fasterq-dump -O data/raw -p --split-files SRR8435052
 # K562 H3K27me3
 fasterq-dump -O data/raw -p --split-files SRR8435047
 # K562 CTCF
-fasterq-dump -O data/raw -p --split-files SRR8435039
-fasterq-dump -O data/raw -p --split-files SRR8435040
-fasterq-dump -O data/raw -p --split-files SRR8435041
+fasterq-dump -O data/raw -p --split-files SRR8435039(missing)
+fasterq-dump -O data/raw -p --split-files SRR8435040(missing)
+fasterq-dump -O data/raw -p --split-files SRR8435041(missing)
 
 ls data/raw/*.fastq | parallel -j 8 "gzip {}"
 
@@ -87,21 +87,21 @@ mv data/raw/SRR8435041_2.fastq.gz data/raw/K562_3_CTCF_R2.fastq.gz
 
 # H1 Sox2 Day 1
 fasterq-dump -O data/raw -p --split-files SRR8748855
-fasterq-dump -O data/raw -p --split-files SRR8748856
+fasterq-dump -O data/raw -p --split-files SRR8748856(missing)
 
 # H1 CTCF Day 1
-fasterq-dump -O data/raw -p --split-files SRR8748830
-fasterq-dump -O data/raw -p --split-files SRR8748831
+fasterq-dump -O data/raw -p --split-files SRR8748830(missing)
+fasterq-dump -O data/raw -p --split-files SRR8748831(missing)
 
 # H1 IgG Day 1
-fasterq-dump -O data/raw -p --split-files SRR8748845
+fasterq-dump -O data/raw -p --split-files SRR8748845(missing)
 
 # H1 FoxA1 Day 5
-fasterq-dump -O data/raw/ -p --split-files SRR8748811
-fasterq-dump -O data/raw/ -p --split-files SRR8748812
+fasterq-dump -O data/raw/ -p --split-files SRR8748811(missing)
+fasterq-dump -O data/raw/ -p --split-files SRR8748812(missing)
 
 # H1 IgG Day 5
-fasterq-dump -O data/raw/ -p --split-files SRR8748821
+fasterq-dump -O data/raw/ -p --split-files SRR8748821(missing)
 
 ls data/raw/*.fastq | parallel -j 8 "gzip {}"
 
