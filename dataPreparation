@@ -8,6 +8,7 @@
 #have some issue of truncation in specific large files
 
 # Cut&Tag paper by Henikoff lab using K562 cells + histone mark.
+#IgG is used as negative control
 
 # K562 H3K4me1
 fasterq-dump -O data/raw -p --split-files SRR8383512
@@ -88,6 +89,7 @@ mv data/raw/SRR8435041_2.fastq data/raw/K562_3_CTCF_R2.fastq
 # CUT&RUN -----------------------------------------------------------------------------------------
 
 # source: Pioneer Factor-Nucleosome Binding Events during Differentiation Are Motif Encoded. Meers 2019.
+#IgG is used as negative control
 
 # H1 Sox2 Day 1
 fasterq-dump -O data/raw -p --split-files SRR8748855
