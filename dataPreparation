@@ -1,8 +1,11 @@
+#Author: Steve Wong
+
 #!/bin/bash
 
 # download & compress public datasets ------------------------------------------------------------------------
-#use the bash:
-bash /mnt/d/peakCalling/dataPrep.sh
+#use the bash
+
+#have some issue of truncation in specific large files
 
 # Cut&Tag paper by Henikoff lab using K562 cells + histone mark.
 
@@ -23,10 +26,10 @@ fasterq-dump -O data/raw -p --split-files SRR8435051
 fasterq-dump -O data/raw -p --split-files SRR8435052
 # K562 H3K27me3
 fasterq-dump -O data/raw -p --split-files SRR8435047
-# K562 CTCF
-fasterq-dump -O data/raw -p --split-files SRR8435039(missing)
-fasterq-dump -O data/raw -p --split-files SRR8435040(missing)
-fasterq-dump -O data/raw -p --split-files SRR8435041(missing)
+# K562 CTCF (these three files usually shows truncation and still need to be downloaded)
+fasterq-dump -O data/raw -p --split-files SRR8435039
+fasterq-dump -O data/raw -p --split-files SRR8435040
+fasterq-dump -O data/raw -p --split-files SRR8435041
 
 ls data/raw/*.fastq | parallel -j 8 "gzip {}"
 
@@ -97,11 +100,11 @@ fasterq-dump -O data/raw -p --split-files SRR8748831
 fasterq-dump -O data/raw -p --split-files SRR8748845
 
 # H1 FoxA1 Day 5
-fasterq-dump -O data/raw/ -p --split-files SRR8748811(missing) (getting)
-fasterq-dump -O data/raw/ -p --split-files SRR8748812(missing)
+fasterq-dump -O data/raw/ -p --split-files SRR8748811
+fasterq-dump -O data/raw/ -p --split-files SRR8748812
 
 # H1 IgG Day 5
-fasterq-dump -O data/raw/ -p --split-files SRR8748821(missing)
+fasterq-dump -O data/raw/ -p --split-files SRR8748821
 
 ls data/raw/*.fastq | parallel -j 8 "gzip {}"
 
