@@ -30,7 +30,7 @@ fasterq-dump -O data/raw -p --split-files SRR8435052
 fasterq-dump -O data/raw -p --split-files SRR8435047
 # K562 CTCF (these three files usually shows truncation and still need to be downloaded)
 fasterq-dump -O data/raw -p --split-files SRR8435039
-fasterq-dump -O data/raw -p --split-files SRR8435040
+fasterq-dump -O data/raw -p --split-files SRR8435040(missing)
 fasterq-dump -O data/raw -p --split-files SRR8435041
 
 #this step seems not making .gz files; if so, need to rename all by adding .gz in the end
