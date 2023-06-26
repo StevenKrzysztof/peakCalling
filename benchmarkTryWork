@@ -54,7 +54,7 @@ rule all:
         # quality control ---------------------------------------------------------------
         expand("data/fastqc/{read}.html", read=reads),
         expand("data/fastq_screen/{read}_screen.txt", read=reads),
-        expand(["data/ban/{sample}.ban.sorted.markd.bam",
+        expand(["data/uniq_hits/{sample}_uniq_hits.bam",
                 "data/tracks/{sample}.bw",
                 "data/preseq/lcextrap_{sample}.txt"],
                 sample=samps),
@@ -180,9 +180,9 @@ rule banlist:
 
 rule index:
     input:
-        rules.banlist.output
+        "data/uniq_hits/{sample}_uniq_hits.bam"
     output:
-        "data/ban/{sample}.ban.sorted.markd.bam.bai"
+        "data/_uniq_hits/{sample}_uniq_hits.bam.bai"
     conda:
         "envs/sambamba.yml"
     threads: 4
@@ -193,8 +193,8 @@ rule index:
 
 rule tracks:
     input:
-        rules.banlist.output,
-        rules.index.output
+        "data/uniq_hits/{sample}_uniq_hits.bam",
+        "data/_uniq_hits/{sample}_uniq_hits.bam.bai"
     output:
         "data/tracks/{sample}.bw"
     conda:
