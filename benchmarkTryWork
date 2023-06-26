@@ -2,6 +2,15 @@
 #this is the work for tring the gopeak snakefile
 #we need to edit the file thus the data could filt in the sorted uniq bam file
 # CutAndQC performs initial QC on CutAndTag projects
+
+
+#-------------------------------------------------06/26
+#changed the code until track rule.
+#tried first snakemake step and rule until track all worked.
+#still waiting for results
+#need to activate snakemake-tutorial in order to run the snakefile
+#installed the required packages. 
+
 import glob
 import os 
 from pathlib import Path,PurePath,PurePosixPath
