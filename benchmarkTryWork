@@ -213,6 +213,12 @@ rule tracks:
     shell:
         "bamCoverage -b {input[0]} -o {output} -p {threads} --binSize 10 --smoothLength 50 --normalizeUsing CPM"
 
+
+#--------------------------------------06/27---------------------------------------------------------------------
+#have made single file process working.
+#need to try for batch files
+#continue on file editing
+
 rule fraglength:
     input:
         rules.banlist.output
