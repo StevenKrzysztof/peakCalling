@@ -221,14 +221,16 @@ rule tracks:
 
 rule fraglength:
     input:
-        rules.banlist.output
+        "data/uniq_hits/{sample}_uniq_hits.bam"
     output:
-        "data/ban/{sample}.sorted.markd.fraglen.tsv"
+        "data/uniq_hits/{sample}.sorted.markd.fraglen.tsv"
     conda:
         "envs/align.yml"
     shell:
         "src/fraglen-dist.sh {input} {output}"
 
+#this part is hard
+#has not changed yet
 rule fraglength_plot:
     input:
         expand("data/ban/{sample}.sorted.markd.fraglen.tsv", sample = samps)
@@ -252,7 +254,7 @@ rule fraglength_plot:
 
 rule preseq:
     input:
-       rules.banlist.output
+       "data/uniq_hits/{sample}_uniq_hits.bam"
     output:
         "data/preseq/estimates_{sample}.txt"
     conda:
@@ -264,7 +266,7 @@ rule preseq:
 
 rule preseq_lcextrap:
     input:
-        rules.banlist.output
+        "data/uniq_hits/{sample}_uniq_hits.bam"
     output:
         "data/preseq/lcextrap_{sample}.txt"
     conda:
@@ -276,7 +278,7 @@ rule preseq_lcextrap:
 
 rule plotFinger:
     input:
-        "data/ban/{sample}.ban.sorted.markd.bam", "data/ban/{sample}.ban.sorted.markd.bam.bai"
+        "data/uniq_hits/{sample}_uniq_hits.bam", "data/uniq_hits/{sample}_uniq_hits.bam.bai"
     output:
         "data/dtools/fingerprint_{sample}.tsv"
     conda:
@@ -295,8 +297,8 @@ rule wget_gopeaks:
 rule gopeaks:
     input:
         gopeaks = rules.wget_gopeaks.output,
-        sample = "data/ban/{sample}.ban.sorted.markd.bam",
-        index = "data/ban/{sample}.ban.sorted.markd.bam.bai",
+        sample = "data/uniq_hits/{sample}_uniq_hits.bam",
+        index = "data/uniq_hits/{sample}_uniq_hits.bam.bai",
         igg = get_igg
     output:
         "data/gopeaks/{sample}_peaks.bed"
@@ -316,6 +318,8 @@ rule gopeaks:
 # input.igg requires the IgG bam file, even if treatment is IgG. however, params.igg will mask input.igg if treatment is IgG.
 # so treatment file != control file for all samples.
 
+
+#let's end here
 rule consensus:
     input:
         group_reps
