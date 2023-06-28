@@ -4,16 +4,31 @@
 # CutAndQC performs initial QC on CutAndTag projects
 
 #using command line to run the peak calling:
+#---------macs 2--------(takes about a minute)
 #macs2: macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g hs -n data/macs2/k562_2_h3k27ac > data/logs/macs2_k562_2_h3k27ac.log 2>&1
 
-#---------epic 2--------
+#---------epic 2--------(takes few seconds)
 #reference tutorail: https://github.com/biocore-ntnu/epic2
 #epic2 command:  epic2 -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 --bin-size 200 --output data/epic2/k562_2_h3k27ac > data/logs/epic2_k562_2_h3k27ac.log 2>&1
 ##or to use: epic2 -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 > data/epic2/deleteme.txt
 ##to generate txt file.
 #differential analysis on epic2-df -x command:  epic2-df -tk data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -tw data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 -ok data/epic2/output_ko.txt -ow data/epic2/output_wt.txt > data/epic2/output.txt
 
-#try macs3
+#--------macs 3--------(takes about half-minute)
+#Example for regular peak calling on TF ChIP-seq:
+$ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g hs -n test -B -q 0.01
+#note that if you want to use hg38:
+$ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.9e9 -n data/macs3/k562_2_h3k27ac -B -q 0.01
+#if you want to use hg19: substitute 2.9e9 with 2.8e9
+$default genome takes hs for human, mm for mouse
+
+
+#Example for broad peak calling on Histone Mark ChIP-seq:
+$ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --broad -g hs --broad-cutoff 0.1
+
+#Example for peak calling on ATAC-seq (paired-end mode):
+$ macs3 callpeak -f BAMPE -t ATAC.bam -g hs -n test -B -q 0.01
+
 
 #-------------------------------------------------06/26
 #changed the code until track rule.
