@@ -3,6 +3,9 @@
 #we need to edit the file thus the data could filt in the sorted uniq bam file
 # CutAndQC performs initial QC on CutAndTag projects
 
+#using command line to run the peak calling:
+#macs2: macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g hs -n data/macs2/k562_2_h3k27ac > data/logs/macs2_k562_2_h3k27ac.log 2>&1
+
 
 #-------------------------------------------------06/26
 #changed the code until track rule.
