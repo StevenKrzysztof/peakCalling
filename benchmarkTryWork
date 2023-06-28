@@ -6,6 +6,11 @@
 #using command line to run the peak calling:
 #macs2: macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g hs -n data/macs2/k562_2_h3k27ac > data/logs/macs2_k562_2_h3k27ac.log 2>&1
 
+#epic2 command:  epic2 -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 --bin-size 200 --output data/epic2/k562_2_h3k27ac > data/logs/epic2_k562_2_h3k27ac.log 2>&1
+##or to use: epic2 -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 > data/epic2/deleteme.txt
+##to generate txt file.
+
+#differential analysis on epic2-df -x command:  epic2-df -tk data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -tw data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 -ok data/epic2/output_ko.txt -ow data/epic2/output_wt.txt > data/epic2/output.txt
 
 #-------------------------------------------------06/26
 #changed the code until track rule.
