@@ -30,6 +30,21 @@ $ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hit
 $ macs3 callpeak -f BAMPE -t ATAC.bam -g hs -n test -B -q 0.01
 
 
+#--------HOMER------------(take about half an hour)
+##tutorial: HOMER (http://homer.ucsd.edu/homer/)
+
+#findMotifs.pl discover motifs in promoter
+$ findMotifs.pl data/macs3/h1d1_1_ctcf_summits.bed human data/macs3/h1d1_ctcf_promoter_results (still has some bug)
+
+#the code to download human promoter is as follows:
+$ perl /home/steve/anaconda3/envs/snakemake-tutorial/share/homer/.//configureHomer.pl -list
+#find the existing datasets
+#install human (seems wierd. Refer to the encountered_problem document)
+$ perl /home/steve/anaconda3/envs/snakemake-tutorial/share/homer/.//configureHomer.pl -install human-p
+
+#findMotifsGenome.pl discover motifs in genomic regions
+$ findMotifsGenome.pl data/macs3/h1d1_1_ctcf_summits.bed data/referenceGenome/hg38.fa data/macs3/h1d1_ctcf_results -size 200 -p 4 > log.txt 2>&1
+
 #-------------------------------------------------06/26
 #changed the code until track rule.
 #tried first snakemake step and rule until track all worked.
