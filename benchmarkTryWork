@@ -30,11 +30,28 @@ $ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hit
 $ macs3 callpeak -f BAMPE -t ATAC.bam -g hs -n test -B -q 0.01
 
 
-#--------HOMER------------(take about half an hour)
+#--------HOMER------------(take about half an hour for motif finding; 2 minutes for peak calling)
+#for peak calling
+#in homer, you need to build tag for both treatment and control data (by the following step to specify the tag directory)
+#for treatment
+$ makeTagDirectory data/homer data/uniq_hits/h1d1_1_sox2_uniq_hits.bam
+#for control
+$ makeTagDirectory data/homer/h1d1_1_igg data/uniq_hits/h1d1_1_igg_uniq_hits.bam
+#if you do have control directory, do this step:
+$ findPeaks data/homer/h1d1_1_sox2 -o data/homer/h1d1_1_sox2/peaks.txt -i data/homer/h1d1_1_igg -style factor
+#if no control, you can do by default set. That will give the results with more noise. The default dataset they use is the built in dataset of hg38(you need to download)
+#the downloading command is as follows
+$ perl /home/steve/anaconda3/envs/snakemake-tutorial/share/homer/.//configureHomer.pl -install hg38
+#the peak calling command is like this
+$ findPeaks data/homer/h1d1_1_sox2 -o data/homer/h1d1_1_sox2/peakResults
+
 ##tutorial: HOMER (http://homer.ucsd.edu/homer/)
 
 #findMotifs.pl discover motifs in promoter
 $ findMotifs.pl data/macs3/h1d1_1_ctcf_summits.bed human data/macs3/h1d1_ctcf_promoter_results (still has some bug)
+#annotated peak
+#you can make annotation to the generated bed file
+$ annotatePeaks.pl data/macs3/h1d1_1_ctcf_summits.bed hg38 > data/homer/hid1_1_ctcf_annotated_peaks.txt
 
 #the code to download human promoter is as follows:
 $ perl /home/steve/anaconda3/envs/snakemake-tutorial/share/homer/.//configureHomer.pl -list
