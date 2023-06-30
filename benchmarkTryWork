@@ -14,7 +14,7 @@ $ bash macs2_code.sh
 
 #---------epic 2--------(takes few seconds)
 #reference tutorail: https://github.com/biocore-ntnu/epic2
-#epic2 command:  epic2 -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 --bin-size 200 --output data/epic2/k562_2_h3k27ac > data/logs/epic2_k562_2_h3k27ac.log 2>&1
+#epic2 command:  epic2 -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 --bin-size 200 --output data/epic2/k562_2_h3k4me1/k562_2_h3k4me1.bed > data/logs/epic2_k562_2_h3k4me1.log 2>&1
 ##or to use: epic2 -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 > data/epic2/deleteme.txt
 ##to generate txt file.
 #differential analysis on epic2-df -x command:  epic2-df -tk data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -tw data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 -ok data/epic2/output_ko.txt -ow data/epic2/output_wt.txt > data/epic2/output.txt
