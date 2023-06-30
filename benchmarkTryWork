@@ -98,6 +98,7 @@ $ bash scear_code.sh
 #-------------------------------------------------06/30---------------------------------------------------------------------
 #remove blacklist in bam files
 $ bedtools intersect -v -a input.bam -b blacklist.bed > output.bam
+$ bedtools intersect -v -a data/uniq_hits/k562_2_h3k4me3_uniq_hits.bam -b data/referenceGenome/hg38_blacklist.bed > data/blackRemoved/k562_2_h3k4me3_brd.bam
 
 #After running the command, you might want to sort and index the resulting BAM file. You can do this with Samtools:
 
