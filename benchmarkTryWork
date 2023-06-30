@@ -9,7 +9,8 @@
 $ macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g hs -n data/macs2/k562_2_h3k27ac > data/logs/macs2_k562_2_h3k27ac.log 2>&1
 #to use hg38
 $ macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 -n data/macs2/k562_2_h3k27ac > data/logs/macs2_k562_2_h3k27ac.log 2>&1
-
+#for a batch of files, use the bash code in codeForData
+$ bash macs2_code.sh
 
 #---------epic 2--------(takes few seconds)
 #reference tutorail: https://github.com/biocore-ntnu/epic2
@@ -17,6 +18,8 @@ $ macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hit
 ##or to use: epic2 -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 > data/epic2/deleteme.txt
 ##to generate txt file.
 #differential analysis on epic2-df -x command:  epic2-df -tk data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -tw data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 -ok data/epic2/output_ko.txt -ow data/epic2/output_wt.txt > data/epic2/output.txt
+#for a batch of files, use the bash code in codeForData
+$ bash epic2_code.sh
 
 #--------macs 3--------(takes about half-minute)
 #Example for regular peak calling on TF ChIP-seq:
@@ -33,6 +36,8 @@ $ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hit
 #Example for peak calling on ATAC-seq (paired-end mode):
 $ macs3 callpeak -f BAMPE -t ATAC.bam -g hs -n test -B -q 0.01
 
+#for a batch of files, use the bash code in codeForData
+$ bash macs3_code.sh
 
 #--------HOMER------------(take about half an hour for motif finding; 2 minutes for peak calling)
 #for peak calling
@@ -65,6 +70,28 @@ $ perl /home/steve/anaconda3/envs/snakemake-tutorial/share/homer/.//configureHom
 
 #findMotifsGenome.pl discover motifs in genomic regions
 $ findMotifsGenome.pl data/macs3/h1d1_1_ctcf_summits.bed data/referenceGenome/hg38.fa data/macs3/h1d1_ctcf_results -size 200 -p 4 > log.txt 2>&1
+
+#for a batch of files, use the bash code in codeForData
+$ bash homer_code.sh
+
+
+#-------------------scear-----------------
+#online website: https://seacr.fredhutch.org/
+#as I can not really install SCEAR on the computer, I used their provided scear.sh
+#need bedtools and r-base installed
+$ sudo apt install bedtools
+$ sudo apt-get install r-base
+
+#the stringent command is:
+$ bash SEACR_1.3.sh Testfiles/CTCF_DE_chr1_100Mb.bedgraph.txt Testfiles/IgG_DE_chr1_100Mb.bedgraph.txt norm stringent Testfiles/CTCF_DE_chr1_100Mb 
+
+#the relaxed command is:
+$ bash SEACR_1.3.sh Testfiles/CTCF_DE_chr1_100Mb.bedgraph.txt Testfiles/IgG_DE_chr1_100Mb.bedgraph.txt norm relaxed Testfiles/CTCF_DE_chr1_100Mb_relaxed
+
+#for a batch of files, use the bash code in codeForData
+$ bash scearStringent_code.sh
+$ bash scearRelaxed_code.sh
+
 
 #-------------------------------------------------06/26
 #changed the code until track rule.
