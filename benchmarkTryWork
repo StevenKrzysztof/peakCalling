@@ -95,6 +95,15 @@ $ bash scearRelaxed_code.sh
 #or run the general bash and choose mode in terminal
 $ bash scear_code.sh
 
+#-------------------------------------------------06/30---------------------------------------------------------------------
+#remove blacklist in bam files
+$ bedtools intersect -v -a input.bam -b blacklist.bed > output.bam
+
+#After running the command, you might want to sort and index the resulting BAM file. You can do this with Samtools:
+
+$samtools sort output.bam -o output.sorted.bam
+$samtools index output.sorted.bam
+
 
 #-------------------------------------------------06/26
 #changed the code until track rule.
