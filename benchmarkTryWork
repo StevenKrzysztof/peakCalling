@@ -95,6 +95,16 @@ $ bash scearRelaxed_code.sh
 #or run the general bash and choose mode in terminal
 $ bash scear_code.sh
 
+
+#------------------------------------Manual for making roc plot--------------------------------------------------------------
+
+#Calculate for evaluation:
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs2_k562_1_h3k4me1.txt
+
+#Make plot:
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/figures/roc data/figures/pr
+#the py file(actually snakefile) and other r codes can be find on github
+
 #-------------------------------------------------06/30---------------------------------------------------------------------
 #remove blacklist in bam files
 $ bedtools intersect -v -a input.bam -b blacklist.bed > output.bam
