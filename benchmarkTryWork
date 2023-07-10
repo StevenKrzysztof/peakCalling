@@ -39,6 +39,11 @@ $ macs3 callpeak -f BAMPE -t ATAC.bam -g hs -n test -B -q 0.01
 #for a batch of files, use the bash code in codeForData
 $ bash macs3_code.sh
 
+
+#for broad peaks, notice some modification
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 -n data/macs3/k562_1_h3k27me3_broad -B --broad -q 0.05
+#here we add the option -B broad and adjust the q value from 0.01 to 0.05 in order to fit in the broad mode.
+
 #--------HOMER------------(take about half an hour for motif finding; 2 minutes for peak calling)
 #for peak calling
 #in homer, you need to build tag for both treatment and control data (by the following step to specify the tag directory)
