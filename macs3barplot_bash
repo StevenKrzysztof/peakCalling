@@ -1,4 +1,7 @@
 #Author: Steve Wong
+
+
+#---------------------------------------------------------macs3 part---------------------------------------------------
 #first part for k562_1
 
 #!/bin/bash
@@ -47,4 +50,154 @@ for file in "${file_list[@]}"; do
   # Execute the command
   echo "Running command without lambda for $file"
   $full_command > "data/logs/macs3_${file}_nolambda.log" 2>&1
+done
+
+
+##second part for k562 replicates
+#!/bin/bash
+
+# Define the command and common options
+common_options="-c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.9e9 -B -q 0.01"
+
+# Define the lambda values
+lambda_values=(
+  1000
+  2000
+  3000
+  4000
+  5000
+  6000
+  7000
+  8000
+  9000
+  10000
+)
+
+# Define the file list
+file_list=(
+  "k562_2_h3k4me1"
+  "k562_2_h3k4me2"
+  "k562_2_h3k4me3"
+  "k562_2_h3k27ac"
+  "k562_2_ctcf"
+  "k562_3_ctcf"
+)
+
+# Iterate over the file list
+for file in "${file_list[@]}"; do
+  # Iterate over the lambda values
+  for lambda in "${lambda_values[@]}"; do
+    # Build the full command with lambda for the current file
+    full_command="macs3 callpeak -t data/uniq_hits/${file}_uniq_hits.bam -n data/macs3/${file}/${file}_lambda${lambda} --llocal $lambda $common_options"
+
+    # Execute the command
+    echo "Running command with lambda = $lambda for $file"
+    $full_command > "data/logs/macs3_${file}_lambda${lambda}.log" 2>&1
+  done
+
+  # Build the full command without lambda for the current file
+  full_command="macs3 callpeak -t data/uniq_hits/${file}_uniq_hits.bam -n data/macs3/${file}/${file}_nolambda --nolambda $common_options"
+
+  # Execute the command
+  echo "Running command without lambda for $file"
+  $full_command > "data/logs/macs3_${file}_nolambda.log" 2>&1
+done
+
+
+
+#---------------------------------------------------------macs2 part---------------------------------------------------
+#!/bin/bash
+
+# Define the command and common options
+command="macs2 callpeak -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 --nomodel"
+
+# Define the lambda values
+lambda_values=(
+  1000
+  2000
+  3000
+  4000
+  5000
+  6000
+  7000
+  8000
+  9000
+  10000
+)
+
+# Define the file list
+file_list=(
+  "k562_1_h3k4me1"
+  "k562_1_h3k4me2"
+  "k562_1_h3k27ac"
+  "k562_1_h3k27me3"
+  "k562_1_ctcf"
+)
+
+
+# Iterate over the file list
+for file in "${file_list[@]}"; do
+  # Iterate over the lambda values
+  for lambda in "${lambda_values[@]}"; do
+    # Build the full command with lambda for k562_1_h3k4me3
+    full_command="$command -t data/uniq_hits/${file}_uniq_hits.bam -n data/macs2/${file}/${file}_lambda${lambda} --llocal $lambda"
+
+    # Execute the command
+    echo "Running command with lambda = $lambda for $file"
+    $full_command > "data/logs/macs2_${file}_lambda${lambda}.log" 2>&1
+  done
+
+  # Build the full command without lambda for k562_1_h3k4me3
+  full_command="$command -t data/uniq_hits/${file}_uniq_hits.bam -n data/macs2/${file}/${file}_nolambda --nolambda"
+
+  # Execute the command
+  echo "Running command without lambda for $file"
+  $full_command > "data/logs/macs2_${file}_nolambda.log" 2>&1
+done
+
+#repeat for replicate 2
+command="macs2 callpeak -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 --nomodel"
+
+# Define the lambda values
+lambda_values=(
+  1000
+  2000
+  3000
+  4000
+  5000
+  6000
+  7000
+  8000
+  9000
+  10000
+)
+
+# Define the file list
+file_list=(
+  "k562_2_h3k4me1"
+  "k562_2_h3k4me2"
+  "k562_2_h3k4me3"
+  "k562_2_h3k27ac"
+  "k562_2_ctcf"
+  "k562_3_ctcf"
+)
+
+# Iterate over the file list
+for file in "${file_list[@]}"; do
+  # Iterate over the lambda values
+  for lambda in "${lambda_values[@]}"; do
+    # Build the full command with lambda for k562_1_h3k4me3
+    full_command="$command -t data/uniq_hits/${file}_uniq_hits.bam -n data/macs2/${file}/${file}_lambda${lambda} --llocal $lambda"
+
+    # Execute the command
+    echo "Running command with lambda = $lambda for $file"
+    $full_command > "data/logs/macs2_${file}_lambda${lambda}.log" 2>&1
+  done
+
+  # Build the full command without lambda for k562_1_h3k4me3
+  full_command="$command -t data/uniq_hits/${file}_uniq_hits.bam -n data/macs2/${file}/${file}_nolambda --nolambda"
+
+  # Execute the command
+  echo "Running command without lambda for $file"
+  $full_command > "data/logs/macs2_${file}_nolambda.log" 2>&1
 done
