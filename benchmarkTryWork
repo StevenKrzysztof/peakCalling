@@ -11,6 +11,9 @@ $ macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hit
 $ macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 -n data/macs2/k562_2_h3k27ac > data/logs/macs2_k562_2_h3k27ac.log 2>&1
 #for a batch of files, use the bash code in codeForData
 $ bash macs2_code.sh
+# to detect more peaks, we loose the peaks detection range
+$ macs2 callpeak -t data/uniq_hits/k562_2_h3k4me3_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 -n data/macs2/k562_2_h3k4me3/k562_2_h3k4me3
+
 
 #---------epic 2--------(takes few seconds)
 #reference tutorail: https://github.com/biocore-ntnu/epic2
@@ -25,7 +28,8 @@ $ bash epic2_code.sh
 #Example for regular peak calling on TF ChIP-seq:
 $ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g hs -n test -B -q 0.01
 #note that if you want to use hg38:
-$ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.9e9 -n data/macs3/k562_2_h3k27ac -B -q 0.01
+$ macs3 callpeak -t data/uniq_hits/k562_2_h3k4me3_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.9e9 -n data/macs3/k562_2_h3k4me3/k562_2
+_h3k4me3 -B -q 0.01
 #if you want to use hg19: substitute 2.9e9 with 2.8e9
 $default genome takes hs for human, mm for mouse
 
@@ -115,8 +119,8 @@ $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/figures/roc data
 #please follow the steps.
 #For macs2 and macs3:
 #merge replicate1 and replicate2 (substitue later tmr)
-$ cat data/homer/k562_1_h3k4me3/peaks.txt data/homer/k562_2_h3k4me3/peaks.txt > data/homer/k562_h3k4me3_peaks.xls
-$ cat data/homer/k562_1_h3k4me3/peaks.txt data/homer/k562_2_h3k4me3/peaks.txt > data/homer/k562_h3k4me3_peaks.narrowPeak
+$ cat data/macs2/k562_1_h3k4me3/k562_1_h3k4me3_peaks.xls data/macs2/k562_2_h3k4me3/k562_2_h3k4me3_peaks.xls > data/macs2/k562_h3k4me3_peaks.xls
+$ cat data/macs2/k562_1_h3k4me3/k562_1_h3k4me3_peaks.narrowPeak data/macs2/k562_2_h3k4me3/k562_2_h3k4me3_peaks.narrowPeak > data/macs2/k562_h3k4me3_peaks.narrowPeak
 #then just run the snakefile
 $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs2_k562_h3k4me3.txt
 $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs3_k562_h3k4me3.txt
