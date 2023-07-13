@@ -110,6 +110,37 @@ $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/
 $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/figures/roc data/figures/pr
 #the py file(actually snakefile) and other r codes can be find on github
 
+
+#------------------------------------generating ROC and PR plot-------------------------------------------------------------
+#please follow the steps.
+#For macs2 and macs3:
+#merge replicate1 and replicate2 (substitue later tmr)
+$ cat data/homer/k562_1_h3k4me3/peaks.txt data/homer/k562_2_h3k4me3/peaks.txt > data/homer/k562_h3k4me3_peaks.xls
+$ cat data/homer/k562_1_h3k4me3/peaks.txt data/homer/k562_2_h3k4me3/peaks.txt > data/homer/k562_h3k4me3_peaks.narrowPeak
+#then just run the snakefile
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs2_k562_h3k4me3.txt
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs3_k562_h3k4me3.txt
+
+#for epic2:
+#merge replicate1 and replicate2 and produce narrowPeak file
+$ cat data/homer/k562_1_h3k4me3/k562_1_h3k4me3.txt data/epic/k562_2_h3k4me3/k562_2_h3k4me3.txt > data/epic2/k562_h3k4me3_peaks.xls
+$ cat data/homer/k562_1_h3k4me3/k562_1_h3k4me3.txt data/epic/k562_2_h3k4me3/k562_2_h3k4me3.txt > data/epic2/k562_h3k4me3_peaks.narrowPeak
+#then just run the snakefile. 
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/epic2_k562_h3k4me3.txt
+#you need to manually delete the final few lines
+
+#for Homer: 
+#merge replicate1 and replicate2 and produce narrowPeak file
+$ cat data/homer/k562_1_h3k4me3/peaks.txt data/homer/k562_2_h3k4me3/peaks.txt > data/homer/k562_h3k4me3_peaks.xls
+$ cat data/homer/k562_1_h3k4me3/peaks.txt data/homer/k562_2_h3k4me3/peaks.txt > data/homer/k562_h3k4me3_peaks.narrowPeak
+#then edit the file format
+$ cut -f2-15 data/homer/k562_h3k4me3_peaks.narrowPeak > data/homer/k562_h3k4me3_cut_peaks.narrowPeak
+#remember to edit the file name to remove cut and delete the middle line of headers
+#then just run the snakefile
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/homer_k562_h3k4me3.txt
+#you need to manually delete the final few lines
+
+
 #-------------------------------------------------06/30---------------------------------------------------------------------
 #remove blacklist in bam files
 $ bedtools intersect -v -a input.bam -b blacklist.bed > output.bam
