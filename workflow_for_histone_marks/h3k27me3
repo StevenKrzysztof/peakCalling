@@ -16,22 +16,14 @@ $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/
 
 #macs3
 #nolambda
-$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 --nolambda -n data/macs3/k562_1_h3k27ac/k562_1_h3k27ac_nolambda
-$ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 --nolambda -n data/macs3/k562_2_h3k27ac/k562_2_h3k27ac_nolambda
-#merge replicate1 and replicate2
-$ cat data/macs3/k562_1_h3k27ac/k562_1_h3k27ac_nolambda_peaks.xls data/macs3/k562_2_h3k27ac/k562_2_h3k27ac_nolambda_peaks.xls > data/macs3/k562_h3k27ac_peaks.xls
-$ cat data/macs3/k562_1_h3k27ac/k562_1_h3k27ac_nolambda_peaks.narrowPeak data/macs3/k562_2_h3k27ac/k562_2_h3k27ac_nolambda_peaks.narrowPeak > data/macs3/k562_h3k27ac_peaks.narrowPeak
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 --nolambda -n data/macs3/k562_h3k27me3_nolambda
 #run snakefile (remember to edit the snakefile to substitute the reference)
-$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs3_k562_h3k27ac.txt
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs3_k562_h3k27me3_nolambda.txt
 
 #with lambda
-$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 -n data/macs3/k562_1_h3k27ac/k562_1_h3k27ac
-$ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 -n data/macs3/k562_2_h3k27ac/k562_2_h3k27ac
-#merge replicate1 and replicate2
-$ cat data/macs3/k562_1_h3k27ac/k562_1_h3k27ac_peaks.xls data/macs3/k562_2_h3k27ac/k562_2_h3k27ac_peaks.xls > data/macs3/k562_h3k27ac_peaks.xls
-$ cat data/macs3/k562_1_h3k27ac/k562_1_h3k27ac_peaks.narrowPeak data/macs3/k562_2_h3k27ac/k562_2_h3k27ac_peaks.narrowPeak > data/macs3/k562_h3k27ac_peaks.narrowPeak
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -n data/macs3/k562_1_h3k27me3_withlambda
 #run snakefile (remember to edit the snakefile to substitute the reference)
-$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs3_k562_h3k27ac.txt
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs3_k562_h3k27me3_withlambda.txt
 
 
 #epic2
@@ -91,10 +83,10 @@ $ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_m
 
 
 #macs3
-$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 -m 5 50 --nolambda -n data/macs3/k562_1_h3k27ac_broad/k562_1_h3k27ac_nolambda -B --broad -q 0.05
-$ macs3 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.9e9 -m 5 50 --nolambda -n data/macs3/k562_2_h3k27ac_broad/k562_2_h3k27ac_nolambda -B --broad -q 0.05
-#here we add the option -B broad and adjust the q value from 0.01 to 0.05 in order to fit in the broad mode.
-$ cat data/macs3/k562_1_h3k27ac_broad/k562_1_h3k27ac_nolambda_peaks.xls data/macs3/k562_1_h3k27ac_broad/k562_1_h3k27ac_nolambda_peaks.xls > data/macs3/k562_h3k27ac_peaks_broad.xls
-$ cat data/macs3/k562_1_h3k27ac_broad/k562_1_h3k27ac_nolambda_peaks.broadPeak data/macs3/k562_1_h3k27ac_broad/k562_1_h3k27ac_nolambda_peaks.broadPeak > data/macs3/k562_h3k27ac_broad_peaks.broadPeak
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 --nolambda -n data/macs3/k562_h3k27me3_nolambda_broad -B --broad -q 0.05
+#with lambda
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 -n data/macs3/k562_h3k27me3_withlambda_broad -B --broad -q 0.05
 #run snakefile (remember to edit the snakefile to substitute the reference)
-$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs3_k562_h3k27ac_broad.txt
+$ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs3_k562_h3k27me3_withlambda_broad.txt
+$ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs3_k562_h3k27me3_nolambda_broad.txt
+
