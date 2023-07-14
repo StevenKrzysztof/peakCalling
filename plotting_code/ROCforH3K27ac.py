@@ -1,3 +1,5 @@
+#please note that here we used --nolambda parameter for all macs2 and macs3 methods. If don't, we will not detect peaks from bg noise
+
 from sklearn.metrics import roc_curve, auc
 import pandas as pd
 import matplotlib.pyplot as plt
