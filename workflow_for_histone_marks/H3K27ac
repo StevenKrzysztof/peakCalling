@@ -1,4 +1,4 @@
-#--------------------------------------------------------full workflow for h3k4me27----------------------------------------
+#--------------------------------------------------------full workflow for h3k27ac----------------------------------------
 #macs2
 $ macs2 callpeak -t data/uniq_hits/k562_1_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 --nolambda -n data/macs2/k562_1_h3k27ac/k562_1_h3k27ac_nolambda
 $ macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 --nolambda -n data/macs2/k562_2_h3k27ac/k562_2_h3k27ac_nolambda
