@@ -3,7 +3,7 @@
 
 
 
-#--------------------------------------------------------full workflow for h3k27me4----------------------------------------
+#--------------------------------------------------------full workflow for h3k27me3----------------------------------------
 #macs2 without lambda
 $ macs2 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 --nolambda -n data/macs2/k562_1_h3k27me3/k562_1_h3k27me3_nolambda
 #run snakefile (remember to edit the snakefile to substitute the reference)
@@ -16,51 +16,44 @@ $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/
 
 #macs3
 #nolambda
-$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 --nolambda -n data/macs3/k562_h3k27me3_nolambda
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 --nolambda -n data/macs3/k562_h3k27me3_nolambda
 #run snakefile (remember to edit the snakefile to substitute the reference)
 $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs3_k562_h3k27me3_nolambda.txt
 
 #with lambda
-$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -n data/macs3/k562_1_h3k27me3_withlambda
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -n data/macs3/k562_h3k27me3_withlambda
 #run snakefile (remember to edit the snakefile to substitute the reference)
 $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/macs3_k562_h3k27me3_withlambda.txt
 
 
 #epic2
-$ epic2 -t data/uniq_hits/k562_1_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam --genome hg38 > data/epic2/k562_1_h3k27ac/k562_1_h3k27ac_peaks.txt
-$ epic2 -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 > data/epic2/k562_2_h3k27ac/k562_2_h3k27ac_peaks.txt
-#merge replicate1 and replicate2 and produce narrowPeak file
-$ cat data/epic2/k562_1_h3k27ac/k562_1_h3k27ac_peaks.txt data/epic2/k562_2_h3k27ac/k562_2_h3k27ac_peaks.txt > data/epic2/k562_h3k27ac_peaks.xls
-$ cat data/epic2/k562_1_h3k27ac/k562_1_h3k27ac_peaks.txt data/epic2/k562_2_h3k27ac/k562_2_h3k27ac_peaks.txt > data/epic2/k562_h3k27ac_peaks.narrowPeak
+$ epic2 -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam --genome hg38 > data/epic2/k562_h3k27me3_peaks.xls
+$ epic2 -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam --genome hg38 > data/epic2/k562_h3k27me3_peaks.broadPeak
 #then just run the snakefile. 
-$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/epic2_k562_h3k27ac.txt
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/epic2_k562_h3k27me3.txt
 #you need to manually delete the final few lines
 
 
 #homer
 
 #for treatment
-$ makeTagDirectory data/homer/k562_1_h3k27ac/ data/uniq_hits/k562_1_h3k27ac_uniq_hits.bam
+$ makeTagDirectory data/homer/k562_1_h3k27me3/ data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam
 #for control
 $ makeTagDirectory data/homer/k562_1_igg/ data/uniq_hits/k562_1_igg_uniq_hits.bam
 #if you do have control directory, do this step:
-$ findPeaks data/homer/k562_1_h3k27ac/ -o data/homer/k562_1_h3k27ac/peaks.txt -i data/homer/k562_1_igg/ -style factor
+$ findPeaks data/homer/k562_1_h3k27me3/ -o data/homer/k562_h3k27me3_peaks.xls -i data/homer/k562_1_igg/ -style factor
+$ findPeaks data/homer/k562_1_h3k27me3/ -o data/homer/k562_h3k27me3_peaks.broadPeak -i data/homer/k562_1_igg/ -style factor
 
 #for repeat
-$ makeTagDirectory data/homer/k562_2_h3k27ac/ data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam
-#for control
-$ makeTagDirectory data/homer/k562_2_igg/ data/uniq_hits/k562_2_igg_uniq_hits.bam
-#if you do have control directory, do this step:
-$ findPeaks data/homer/k562_2_h3k27ac/ -o data/homer/k562_2_h3k27ac/peaks.txt -i data/homer/k562_2_igg/ -style factor
 
-#merge replicate1 and replicate2 and produce narrowPeak file
-$ cat data/homer/k562_1_h3k4me3/peaks.txt data/homer/k562_2_h3k4me3/peaks.txt > data/homer/k562_h3k4me3_peaks.xls
-$ cat data/homer/k562_1_h3k4me3/peaks.txt data/homer/k562_2_h3k4me3/peaks.txt > data/homer/k562_h3k4me3_peaks.narrowPeak
-#then edit the file format
-$ cut -f2-15 data/homer/k562_h3k27ac_peaks.narrowPeak > data/homer/k562_h3k27ac_cut_peaks.narrowPeak
+#if you do have control directory, do this step:
+$ findPeaks data/homer/k562_2_h3k27me3/ -o data/homer/k562_2_h3k27me3/peaks.broadPeak (-style factor)
+
+
+$ cut -f2-15 data/homer/k562_h3k27me3_peaks.broadPeak > data/homer/k562_h3k27me3_cut_peaks.broadPeak
 #remember to edit the file name to remove cut and delete the middle line of headers
 #then just run the snakefile
-$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/homer_k562_h3k27ac.txt
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/homer_k562_h3k27me3.txt
 #you need to manually delete the final few lines
 
 
