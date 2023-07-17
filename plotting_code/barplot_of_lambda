@@ -1,0 +1,57 @@
+#plot merged data
+
+library(ggplot2)
+
+# Load the data for MACS2
+macs2_lambda_no <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_nolambda_merged_peaks.xls", header = TRUE))
+macs2_lambda_1000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda1000_merged_peaks.xls", header = TRUE))
+macs2_lambda_2000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda2000_merged_peaks.xls", header = TRUE))
+macs2_lambda_3000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda3000_merged_peaks.xls", header = TRUE))
+macs2_lambda_4000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda4000_merged_peaks.xls", header = TRUE))
+macs2_lambda_5000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda5000_merged_peaks.xls", header = TRUE))
+macs2_lambda_6000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda6000_merged_peaks.xls", header = TRUE))
+macs2_lambda_7000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda7000_merged_peaks.xls", header = TRUE))
+macs2_lambda_8000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda8000_merged_peaks.xls", header = TRUE))
+macs2_lambda_9000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda9000_merged_peaks.xls", header = TRUE))
+macs2_lambda_10000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs2/merged/h3k4me3_lambda10000_merged_peaks.xls", header = TRUE))
+
+# Load the data for MACS3
+macs3_lambda_no <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_nolambda_merged_peaks.xls", header = TRUE))
+macs3_lambda_1000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda1000_merged_peaks.xls", header = TRUE))
+macs3_lambda_2000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda2000_merged_peaks.xls", header = TRUE))
+macs3_lambda_3000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda3000_merged_peaks.xls", header = TRUE))
+macs3_lambda_4000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda4000_merged_peaks.xls", header = TRUE))
+macs3_lambda_5000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda5000_merged_peaks.xls", header = TRUE))
+macs3_lambda_6000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda6000_merged_peaks.xls", header = TRUE))
+macs3_lambda_7000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda7000_merged_peaks.xls", header = TRUE))
+macs3_lambda_8000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda8000_merged_peaks.xls", header = TRUE))
+macs3_lambda_9000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda9000_merged_peaks.xls", header = TRUE))
+macs3_lambda_10000 <- nrow(read.table("D:/peakCalling/gopeaks-compare-main/data/macs3/merged/h3k4me3_lambda10000_merged_peaks.xls", header = TRUE))
+
+# Create data frames with the number of rows in each file for MACS2 and MACS3
+df_macs2 <- data.frame(Method = "MACS2",
+                       Lambda = c("bg", 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 9999),
+                       Rows = c(macs2_lambda_no, macs2_lambda_1000, macs2_lambda_2000, macs2_lambda_3000,
+                                macs2_lambda_4000, macs2_lambda_5000, macs2_lambda_6000,
+                                macs2_lambda_7000, macs2_lambda_8000, macs2_lambda_9000,
+                                macs2_lambda_10000))
+
+df_macs3 <- data.frame(Method = "MACS3",
+                       Lambda = c(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 9999, "bg"),
+                       Rows = c(macs3_lambda_1000, macs3_lambda_2000, macs3_lambda_3000, macs3_lambda_4000,
+                                macs3_lambda_5000, macs3_lambda_6000, macs3_lambda_7000, macs3_lambda_8000,
+                                macs3_lambda_9000, macs3_lambda_10000, macs3_lambda_no))
+
+# Combine the data frames
+combined_df <- rbind(df_macs2, df_macs3)
+
+# Create a barplot with a title and colored bars, using different colors for each method
+ggplot(combined_df, aes(x = factor(Lambda), y = Rows, fill = Method)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Lambda", y = "Number of peaks found", title = "") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line.x = element_line(color = "black"),
+        axis.line.y = element_line(color = "black"),
+        plot.title = element_text(hjust = 0.5)) +
+  geom_text(aes(label = Rows), position = position_dodge(width = 0.9), vjust = -0.5) +
+  ggtitle("Lambda Choices Comparison in H3K4me3: MACS2 and MACS3")
