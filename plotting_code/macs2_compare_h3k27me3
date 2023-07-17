@@ -1,0 +1,105 @@
+from sklearn.metrics import roc_curve, auc
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+
+#for h3k27me3
+macs2_data_h3k27me3_nolambda = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs2_k562_h3k27me3_nolambda.txt", delimiter='\t')
+macs2_data_h3k27me3_withlambda = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs2_k562_h3k27me3_withlambda.txt", delimiter='\t')
+macs2_data_h3k27me3_nolambda_broad = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs2_k562_h3k27me3_nolambda_broad.txt", delimiter='\t')
+macs2_data_h3k27me3_withlambda_broad = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs2_k562_h3k27me3_withlambda_broad.txt", delimiter='\t')
+
+# Sort the data by increasing signal values
+macs2_data_h3k27me3_nolambda.sort_values('signal', inplace=True)
+macs2_data_h3k27me3_withlambda.sort_values('signal', inplace=True)
+macs2_data_h3k27me3_nolambda_broad.sort_values('signal', inplace=True)
+macs2_data_h3k27me3_withlambda_broad.sort_values('signal', inplace=True)
+
+# Calculate True Positive Rate (Recall)
+tpr_macs2_data_h3k27me3_nolambda = macs2_data_h3k27me3_nolambda['recall']
+tpr_macs2_data_h3k27me3_withlambda = macs2_data_h3k27me3_withlambda['recall']
+tpr_macs2_data_h3k27me3_nolambda_broad = macs2_data_h3k27me3_nolambda_broad['recall']
+tpr_macs2_data_h3k27me3_withlambda_broad = macs2_data_h3k27me3_withlambda_broad['recall']
+
+# Calculate False Positive Rate
+fpr_macs2_data_h3k27me3_nolambda = macs2_data_h3k27me3_nolambda['fpr']
+fpr_macs2_data_h3k27me3_withlambda = macs2_data_h3k27me3_withlambda['fpr']
+fpr_macs2_data_h3k27me3_nolambda_broad = macs2_data_h3k27me3_nolambda_broad['fpr']
+fpr_macs2_data_h3k27me3_withlambda_broad = macs2_data_h3k27me3_withlambda_broad['fpr']
+
+# precision
+pre_macs2_data_h3k27me3_nolambda = macs2_data_h3k27me3_nolambda['precision']
+pre_macs2_data_h3k27me3_withlambda = macs2_data_h3k27me3_withlambda['precision']
+pre_macs2_data_h3k27me3_nolambda_broad = macs2_data_h3k27me3_nolambda_broad['precision']
+pre_macs2_data_h3k27me3_withlambda_broad = macs2_data_h3k27me3_withlambda_broad['precision']
+
+# Calculate Area Under the Curve (AUC)
+auc_macs2_data_h3k27me3_nolambda = auc(fpr_macs2_data_h3k27me3_nolambda, tpr_macs2_data_h3k27me3_nolambda)
+auc_macs2_data_h3k27me3_withlambda = auc(fpr_macs2_data_h3k27me3_withlambda, tpr_macs2_data_h3k27me3_withlambda)
+auc_macs2_data_h3k27me3_nolambda_broad = auc(fpr_macs2_data_h3k27me3_nolambda_broad, tpr_macs2_data_h3k27me3_nolambda_broad)
+auc_macs2_data_h3k27me3_withlambda_broad = auc(fpr_macs2_data_h3k27me3_withlambda_broad, tpr_macs2_data_h3k27me3_withlambda_broad)
+
+
+# Set the background color to gray
+plt.rcParams['axes.facecolor'] = 'lightgray'
+
+# Plot the ROC curve
+plt.figure(figsize=(10, 6))
+
+# # Plot MACS2 ROC curve
+plt.plot(fpr_macs2_data_h3k27me3_withlambda, tpr_macs2_data_h3k27me3_withlambda, label=f"macs2 narrow with lambda (AUC = {auc_macs2_data_h3k27me3_withlambda:.2f})", linewidth=2, color='blue')
+
+# Plot macs2 ROC curve
+plt.plot(fpr_macs2_data_h3k27me3_nolambda, tpr_macs2_data_h3k27me3_nolambda, label=f"MACS2 narrow no lambda (AUC = {auc_macs2_data_h3k27me3_nolambda:.2f})", linewidth=2, color='red')
+
+
+# # Plot MACS2 ROC curve
+plt.plot(fpr_macs2_data_h3k27me3_withlambda_broad, tpr_macs2_data_h3k27me3_withlambda_broad, label=f"macs2 broad with lambda (AUC = {auc_macs2_data_h3k27me3_withlambda_broad:.2f})", linewidth=2, color='cyan')
+
+# Plot macs2 ROC curve
+plt.plot(fpr_macs2_data_h3k27me3_nolambda_broad, tpr_macs2_data_h3k27me3_nolambda_broad, label=f"MACS2 broad no lambda (AUC = {auc_macs2_data_h3k27me3_nolambda_broad:.2f})", linewidth=2, color='orange')
+
+
+
+# Plot No Skill ROC curve
+plt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='No Skill')
+
+# Set plot labels and title
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate (Recall)')
+plt.title('macs2 ROC curve for h3k27me3')
+plt.legend(loc='lower right')
+
+# Show the plot
+plt.show()
+
+
+
+# Set the background color to gray
+plt.rcParams['axes.facecolor'] = 'lightgray'
+
+# Plot the Precision-Recall curve
+plt.figure(figsize=(10, 6))
+
+# Plot macs2 Precision-Recall curve
+plt.plot(tpr_macs2_data_h3k27me3_nolambda, pre_macs2_data_h3k27me3_nolambda, label=f"macs2 narrow PR no lambda", linewidth=2, color='blue')
+
+# Plot MACS2 Precision-Recall curve
+plt.plot(tpr_macs2_data_h3k27me3_withlambda, pre_macs2_data_h3k27me3_withlambda, label=f"MACS2 narrow PR with lambda", linewidth=2, color='red')
+
+# Plot macs2 Precision-Recall curve
+plt.plot(tpr_macs2_data_h3k27me3_nolambda_broad, pre_macs2_data_h3k27me3_nolambda_broad, label=f"macs2 broad PR no lambda", linewidth=2, color='cyan')
+
+# Plot MACS2 Precision-Recall curve
+plt.plot(tpr_macs2_data_h3k27me3_withlambda_broad, pre_macs2_data_h3k27me3_withlambda_broad, label=f"MACS2 broad PR with lambda", linewidth=2, color='orange')
+
+
+# Set plot labels and title
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.title('MACS2 Precision-Recall curve for h3k27me3')
+plt.legend(loc='lower left')
+
+# Show the plot
+plt.show()
