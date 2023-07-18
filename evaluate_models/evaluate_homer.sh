@@ -1,3 +1,5 @@
+#!/bin/bash
+
 while getopts "i:s:t:" op
 do
     case "$op" in
@@ -20,12 +22,12 @@ calculate_f1_score() {
 
 threshold() {
     counts=$1
-    predicted_truth=$(cat $sample_file_handle | awk -v s=$1 '$12 <= s')
-    predicted_false=$(cat $sample_file_handle | awk -v s=$1 '$12 > s')
-    TP=$(echo "$predicted_truth" | cut -f2-4 | bedtools intersect -u -a - -b $standard | wc -l)
-    FP=$(echo "$predicted_truth" | cut -f2-4 | bedtools intersect -v -a - -b $standard | wc -l)
-    FN=$(echo "$predicted_false" | cut -f2-4 | bedtools intersect -u -a - -b $standard | wc -l)
-    TN=$(echo "$predicted_false" | cut -f2-4 | bedtools intersect -v -a - -b $standard | wc -l)
+    predicted_truth=$(cat $sample_file_handle | awk -v s=$1 '$15 <= s')
+    predicted_false=$(cat $sample_file_handle | awk -v s=$1 '$15 > s')
+    TP=$(echo "$predicted_truth" | cut -f1-3 | bedtools intersect -u -a - -b $standard | wc -l)
+    FP=$(echo "$predicted_truth" | cut -f1-3 | bedtools intersect -v -a - -b $standard | wc -l)
+    FN=$(echo "$predicted_false" | cut -f1-3 | bedtools intersect -u -a - -b $standard | wc -l)
+    TN=$(echo "$predicted_false" | cut -f1-3 | bedtools intersect -v -a - -b $standard | wc -l)
 
     # calculate precision, recall, F1. export results.
     precision=$(calculate_rate $TP $FP)
@@ -36,23 +38,26 @@ threshold() {
     echo -e "$method\t$condition\t$replicate\t$mark\t$counts\t$TP\t$FP\t$FN\t$TN\t$precision\t$recall\t$fpr\t$f1"
 }
 
+
+
 # file I/O ------------------------------------------------------------------------------
 
+file=$(find data/homer -name "${sample}*Peak") # this workaround accommodates for narrowPeak and broadPeak inputs
 
-# identify method,condition,replicate,mark
+# identify method, condition, replicate, mark
 method="homer"
-condition="k562"
-replicate="1"
-mark="h3k4me3"
+condition=$(basename $file | cut -d_ -f1)
+replicate=$(basename $file | cut -d_ -f2)
+mark=$(basename $file | cut -d_ -f3)
 
-# echo -e "method\tcondition\treplicate\tmark\tsignal\tTP\tFP\tFN\tTN\tprecision\trecall\tfpr\t$f1" # header
+echo -e "method\tcondition\treplicate\tmark\tsignal\tTP\tFP\tFN\tTN\tprecision\trecall\tfpr\tf1" # header
 
 # file prep -----------------------------------------------------------------------------
 
 # create a new column with pval in decimal form. Sort by that new column.
 # identify all pvals within a sample.
-sample_file=$(awk '{print}' $file | grep -vi "inf" | sort -rgk12)
-sample_pvals=$(echo "$sample_file" | cut -f12 | uniq)
+sample_file=$(awk -v OFS='\t' '{print $0,10**-$11}' $file | grep -vi "inf" | sort -rg -k15)
+sample_pvals=$(echo "$sample_file" | cut -f15 | uniq)
 sample_file_handle="data/evaluate_models/${method}_${condition}_${replicate}_${mark}.tmp.txt" # create tmp file to threshold from
 echo "$sample_file" > $sample_file_handle
 
