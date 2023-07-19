@@ -1,0 +1,98 @@
+#--------------------------------------------------------full workflow for h3k4me2----------------------------------------
+#as h3k4me2 is a narrow peak
+#macs2
+$ macs2 callpeak -t data/uniq_hits/k562_1_h3k4me2_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -n data/macs2/k562_1_h3k4me2/k562_1_h3k4me2
+$ macs2 callpeak -t data/uniq_hits/k562_2_h3k4me2_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 -n data/macs2/k562_2_h3k4me2/k562_2_h3k4me2
+#merge replicate1 and replicate2
+$ cat data/macs2/k562_1_h3k4me2/k562_1_h3k4me2_peaks.xls data/macs2/k562_2_h3k4me2/k562_2_h3k4me2_peaks.xls > data/macs2/k562_h3k4me2_narrow_peaks.xls
+$ cat data/macs2/k562_1_h3k4me2/k562_1_h3k4me2_peaks.narrowPeak data/macs2/k562_2_h3k4me2/k562_2_h3k4me2_peaks.narrowPeak > data/macs2/k562_h3k4me2_peaks.narrowPeak
+
+
+#macs3
+
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k4me2_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -n data/macs3/k562_1_h3k4me2/k562_1_h3k4me2
+$ macs3 callpeak -t data/uniq_hits/k562_2_h3k4me2_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 -n data/macs3/k562_2_h3k4me2/k562_2_h3k4me2
+#merge replicate1 and replicate2
+$ cat data/macs3/k562_1_h3k4me2/k562_1_h3k4me2_peaks.xls data/macs3/k562_2_h3k4me2/k562_2_h3k4me2_peaks.xls > data/macs3/k562_h3k4me2_narrow_peaks.xls
+$ cat data/macs3/k562_1_h3k4me2/k562_1_h3k4me2_peaks.narrowPeak data/macs3/k562_2_h3k4me2/k562_2_h3k4me2_peaks.narrowPeak > data/macs3/k562_h3k4me2_peaks.narrowPeak
+
+
+#epic2
+$ epic2 -t data/uniq_hits/k562_1_h3k4me2_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam --genome hg38 > data/epic2/k562_1_h3k4me2/k562_1_h3k4me2_peaks.txt
+$ epic2 -t data/uniq_hits/k562_2_h3k4me2_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam --genome hg38 > data/epic2/k562_2_h3k4me2/k562_2_h3k4me2_peaks.txt
+#merge replicate1 and replicate2 and produce narrowPeak file
+$ cat data/epic2/k562_1_h3k4me2/k562_1_h3k4me2_peaks.txt data/epic2/k562_2_h3k4me2/k562_2_h3k4me2_peaks.txt > data/epic2/k562_h3k4me2_peaks.xls
+#use R script to get the narrowpeak file
+#then just run the snakefile. 
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/epic2_k562_h3k4me1.txt
+#you need to manually delete the final few lines
+
+
+#homer
+
+#for treatment
+$ makeTagDirectory data/homer/k562_1_h3k4me2/ data/uniq_hits/k562_1_h3k4me2_uniq_hits.bam
+#for control
+$ makeTagDirectory data/homer/k562_1_igg/ data/uniq_hits/k562_1_igg_uniq_hits.bam
+#if you do have control directory, do this step:
+$ findPeaks data/homer/k562_1_h3k4me2/ -o data/homer/k562_1_h3k4me2/peaks.txt -i data/homer/k562_1_igg/ 
+
+#for repeat
+$ makeTagDirectory data/homer/k562_2_h3k4me2/ data/uniq_hits/k562_2_h3k4me2_uniq_hits.bam
+#for control
+$ makeTagDirectory data/homer/k562_2_igg/ data/uniq_hits/k562_2_igg_uniq_hits.bam
+#if you do have control directory, do this step:
+$ findPeaks data/homer/k562_2_h3k4me1/ -o data/homer/k562_2_h3k4me1/peaks.txt -i data/homer/k562_2_igg/ 
+
+#merge replicate1 and replicate2 and produce narrowPeak file
+$ cat data/homer/k562_1_h3k4me1/peaks.txt data/homer/k562_2_h3k4me1/peaks.txt > data/homer/k562_h3k4me1_peaks.xls
+#go to the r script
+
+#then just run the snakefile
+$ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/homer_k562_h3k4me1.txt
+#you need to manually delete the final few lines
+
+
+
+
+
+
+
+#try broad with macs2 and macs3
+
+#macs2 
+#no lambda
+$ macs2 callpeak -t data/uniq_hits/k562_1_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 --nolambda --broad -n data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad
+$ macs2 callpeak -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 --nolambda --broad -n data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad
+#merge replicate1 and replicate2
+$ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad_peaks.xls data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad_peaks.xls > data/macs2/k562_h3k4me1nolambda_peaks_broad.xls
+$ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad_peaks.broadPeak data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad_peaks.broadPeak > data/macs2/k562_h3k4me1nolambda_broad_peaks.broadPeak
+#run snakefile (remember to edit the snakefile to substitute the reference)
+$ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs2_k562_h3k4me1_broad.txt
+#with lambda
+$ macs2 callpeak -t data/uniq_hits/k562_1_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 --broad -n data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_broad
+$ macs2 callpeak -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 --broad -n data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_broad
+#merge replicate1 and replicate2
+$ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_broad_peaks.xls data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_broad_peaks.xls > data/macs2/k562_h3k4me1_broad_peaks.xls
+$ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_broad_peaks.broadPeak data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_broad_peaks.broadPeak > data/macs2/k562_h3k4me1_broad_peaks.broadPeak
+#run snakefile (remember to edit the snakefile to substitute the reference)
+$ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs2_k562_h3k4me1_broad.txt
+
+
+#macs3
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 --nolambda -n data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad -B --broad
+$ macs3 callpeak -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.9e9 --nolambda -n data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad -B --broad
+#here we add the option -B broad and adjust the q value from 0.01 to 0.05 in order to fit in the broad mode.
+$ cat data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad_peaks.xls data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad_peaks.xls > data/macs3/k562_h3k4me1nolambda_peaks_broad.xls
+$ cat data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad_peaks.broadPeak data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad_peaks.broadPeak > data/macs3/k562_h3k4me1nolambda_broad_peaks.broadPeak
+#run snakefile (remember to edit the snakefile to substitute the reference)
+$ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs3_k562_h3k4me1nolambda_broad.txt
+
+#with lambda
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 -B -m 5 50 --broad -q 0.05 -n data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_broad 
+$ macs3 callpeak -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.9e9 -B -m 5 50 --broad -q 0.05 -n data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_broad
+#here we add the option -B broad and adjust the q value from 0.01 to 0.05 in order to fit in the broad mode.
+$ cat data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_broad_peaks.xls data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_broad_peaks.xls > data/macs3/k562_h3k4me1_peaks_broad.xls
+$ cat data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_broad_peaks.broadPeak data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_broad_peaks.broadPeak > data/macs3/k562_h3k4me1_broad_peaks.broadPeak
+#run snakefile (remember to edit the snakefile to substitute the reference)
+$ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs3_k562_h3k4me1_broad.txt
