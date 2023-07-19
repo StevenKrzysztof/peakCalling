@@ -68,7 +68,7 @@ $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/
 #no lambda
 $ macs2 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 --nolambda --broad -n data/macs2/k562_h3k27me3nolambda_broad
 # with lambda
-$ macs2 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 --nolambda --broad -n data/macs2/k562_h3k27me3_broad
+$ macs2 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 -m 5 50 --broad -n data/macs2/k562_h3k27me3_broad
 
 #run snakefile (remember to edit the snakefile to substitute the reference)
 $ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs2_k562_h3k27me3nolambda_broad.txt
