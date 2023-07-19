@@ -76,7 +76,7 @@ $ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_m
 
 
 #macs3
-$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 --nolambda -n data/macs3/k562_h3k27me3_nolambda_broad -B --broad -q 0.05
+$ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 --nolambda -n data/macs3/k562_h3k27me3nolambda_broad -B --broad -q 0.05
 #with lambda
 $ macs3 callpeak -t data/uniq_hits/k562_1_h3k27me3_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 -n data/macs3/k562_h3k27me3_withlambda_broad -B --broad -q 0.05
 #run snakefile (remember to edit the snakefile to substitute the reference)
