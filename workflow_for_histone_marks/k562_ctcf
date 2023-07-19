@@ -81,7 +81,7 @@ $ macs2 callpeak -t data/uniq_hits/k562_2_ctcf_uniq_hits.bam -c data/uniq_hits/k
 $ cat data/macs2/k562_1_ctcf/k562_1_ctcf_nolambda_broad_peaks.xls data/macs2/k562_2_ctcf/k562_2_ctcf_nolambda_broad_peaks.xls > data/macs2/k562_ctcfnolambda_broad_peaks.xls
 $ cat data/macs2/k562_1_ctcf/k562_1_ctcf_nolambda_broad_peaks.broadPeak data/macs2/k562_2_ctcf/k562_2_ctcf_nolambda_broad_peaks.broadPeak > data/macs2/k562_ctcfnolambda_broad_peaks.broadPeak
 #run snakefile (remember to edit the snakefile to substitute the reference)
-$ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs2_k562_ctcf_broad.txt
+$ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs2_k562_ctcfnolambda_broad.txt
 #with lambda
 $ macs2 callpeak -t data/uniq_hits/k562_1_ctcf_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 --broad -n data/macs2/k562_1_ctcf/k562_1_ctcf_broad
 $ macs2 callpeak -t data/uniq_hits/k562_2_ctcf_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 --broad -n data/macs2/k562_2_ctcf/k562_2_ctcf_broad
