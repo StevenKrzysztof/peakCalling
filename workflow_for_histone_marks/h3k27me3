@@ -46,11 +46,11 @@ $ findPeaks data/homer/k562_1_h3k27me3/ -o data/homer/k562_h3k27me3_peaks.broadP
 
 #for repeat
 
-#if you do have control directory, do this step:
+#if you do NOT have control directory, do this step:
 $ findPeaks data/homer/k562_2_h3k27me3/ -o data/homer/k562_2_h3k27me3/peaks.broadPeak (-style factor)
 
 
-$ cut -f2-15 data/homer/k562_h3k27me3_peaks.broadPeak > data/homer/k562_h3k27me3_cut_peaks.broadPeak
+#run R script
 #remember to edit the file name to remove cut and delete the middle line of headers
 #then just run the snakefile
 $ snakemake --cores 1 --snakefile rules/evaluate_models.py data/evaluate_models/homer_k562_h3k27me3.txt
