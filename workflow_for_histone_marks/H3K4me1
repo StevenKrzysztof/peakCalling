@@ -104,16 +104,16 @@ $ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_m
 
 #macs2 
 #no lambda
-$ macs2 callpeak -t data/uniq_hits/k562_1_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 --nolambda --broad --broad-cutoff 0.1 -n data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broadcutoff
-$ macs2 callpeak -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 --nolambda --broad --broad-cutoff 0.1 -n data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broadcutoff
+$ macs2 callpeak -t data/uniq_hits/k562_1_h3k4me1_uniq_hits.bam -f BAM -g 2.91e9 --nolambda --broad --broad-cutoff 0.1 -n data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broadcutoff
+$ macs2 callpeak -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -f BAM -g 2.91e9 --nolambda --broad --broad-cutoff 0.1 -n data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broadcutoff
 #merge replicate1 and replicate2
 $ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broadcutoff_peaks.xls data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broadcutoff_peaks.xls > data/macs2/k562_h3k4me1nolambda_peaks_broadcutoff.xls
 $ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broadcutoff_peaks.broadPeak data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broadcutoff_peaks.broadPeak > data/macs2/k562_h3k4me1nolambda_broadcutoff_peaks.broadPeak
 #run snakefile (remember to edit the snakefile to substitute the reference)
 $ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs2_k562_h3k4me1_broad.txt
 #with lambda
-$ macs2 callpeak -t data/uniq_hits/k562_1_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.91e9 --broad --broad-cutoff 0.1 -n data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_broadcutoff
-$ macs2 callpeak -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.91e9 --broad --broad-cutoff 0.1 -n data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_broadcutoff
+$ macs2 callpeak -t data/uniq_hits/k562_1_h3k4me1_uniq_hits.bam -f BAM -g 2.91e9 --broad --broad-cutoff 0.1 -n data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_broadcutoff
+$ macs2 callpeak -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -f BAM -g 2.91e9 --broad --broad-cutoff 0.1 -n data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_broadcutoff
 #merge replicate1 and replicate2
 $ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_broadcutoff_peaks.xls data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_broadcutoff_peaks.xls > data/macs2/k562_h3k4me1_broadcutoff_peaks.xls
 $ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1_broadcutoff_peaks.broadPeak data/macs2/k562_2_h3k4me1/k562_2_h3k4me1_broadcutoff_peaks.broadPeak > data/macs2/k562_h3k4me1_broadcutoff_peaks.broadPeak
