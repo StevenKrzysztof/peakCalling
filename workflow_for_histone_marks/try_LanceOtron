@@ -1,0 +1,6 @@
+#try ctcf
+#convert to bigwig file
+bamCoverage --bam data/uniq_hits/k562_1_ctcf_uniq_hits.bam -o data/lanceotron/k562_1_ctcf/1_ctcf.bw --extendReads -bs 1 --normalizeUsing RPKM
+bamCoverage --bam data/uniq_hits/k562_1_igg_uniq_hits.bam -o data/lanceotron/k562_1_igg/1_igg.bw --extendReads -bs 1 --normalizeUsing RPKM
+lanceotron callPeaksInput data/lanceotron/k562_1_ctcf/1_ctcf.bw -i data/lanceotron/k562_1_igg/1_igg.bw -f data/lanceotron/k562_1_ctcf/
+lanceotron callPeaksInput data/lanceotron/k562_1_h3k4me3/1_h3k4me3.bw -i data/lanceotron/k562_1_igg/1_igg.bw -f data/lanceotron/k562_1_h3k4me3/
