@@ -83,7 +83,7 @@ $ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_m
 $ macs3 callpeak -t data/uniq_hits/k562_1_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 --nolambda -n data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad -B --broad
 $ macs3 callpeak -t data/uniq_hits/k562_2_h3k4me1_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g 2.9e9 --nolambda -n data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad -B --broad
 #here we add the option -B broad and adjust the q value from 0.01 to 0.05 in order to fit in the broad mode.
-$ cat data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad_peaks.xls data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad_peaks.xls > data/macs3/k562_h3k4me1nolambda_peaks_broad.xls
+$ cat data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad_peaks.xls data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad_peaks.xls > data/macs3/k562_h3k4me1nolambda_broad_peaks.xls
 $ cat data/macs3/k562_1_h3k4me1/k562_1_h3k4me1_nolambda_broad_peaks.broadPeak data/macs3/k562_2_h3k4me1/k562_2_h3k4me1_nolambda_broad_peaks.broadPeak > data/macs3/k562_h3k4me1nolambda_broad_peaks.broadPeak
 #run snakefile (remember to edit the snakefile to substitute the reference)
 $ snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs3_k562_h3k4me1nolambda_broad.txt
