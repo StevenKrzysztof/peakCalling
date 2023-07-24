@@ -21,3 +21,50 @@ for file in "${file_list[@]}"; do
   echo "Running command for file: ${file}"
   $full_command
 done
+
+
+#try without control
+# Define the command and common options
+command="macs3 callpeak -f BAM -g 2.9e9"
+
+# Iterate over the file list
+file_list=(
+  "k562_1_h3k4me1"
+  "k562_1_h3k4me2"
+  "k562_1_h3k4me3"
+  "k562_1_h3k27ac"
+  "k562_1_h3k27me3"
+  "k562_1_ctcf"
+)
+
+for file in "${file_list[@]}"; do
+  # Build the full command for each file
+  full_command="$command -t data/uniq_hits/${file}_uniq_hits.bam -n data/macs3/${file}/${file}_noControl"
+
+  # Execute the command
+  echo "Running command for file: ${file}"
+  $full_command
+done
+
+#try without control broad
+# Define the command and common options
+command="macs3 callpeak -f BAM -g 2.9e9 --broad"
+
+# Iterate over the file list
+file_list=(
+  "k562_1_h3k4me1"
+  "k562_1_h3k4me2"
+  "k562_1_h3k4me3"
+  "k562_1_h3k27ac"
+  "k562_1_h3k27me3"
+  "k562_1_ctcf"
+)
+
+for file in "${file_list[@]}"; do
+  # Build the full command for each file
+  full_command="$command -t data/uniq_hits/${file}_uniq_hits.bam -n data/macs3/${file}/${file}_noControl_broad"
+
+  # Execute the command
+  echo "Running command for file: ${file}"
+  $full_command
+done
