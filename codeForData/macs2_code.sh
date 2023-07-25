@@ -21,3 +21,5 @@ for file in "${file_list[@]}"; do
   echo "Running command for file: ${file}"
   $full_command > "data/logs/macs2_${file}.log" 2>&1
 done
+
+#no control narrow
