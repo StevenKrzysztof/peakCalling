@@ -22,3 +22,28 @@ for lambda in "${lambda_values[@]}"; do
     done
 done
 
+input_files1=(
+  "ctcf"
+  "h3k4me1"
+  "h3k4me2"
+  "h3k4me3"
+  "h3k27ac"
+)
+
+input_files2=(
+  "ctcf"
+  "h3k4me1"
+  "h3k4me2"
+  "h3k4me3"
+  "h3k27ac"
+)
+
+
+# Loop through the files and concatenate input_file1 and input_file2
+for ((i=0; i<${#input_files1[@]}; i++)); do
+  input_file1="data/lanceotron/k562_1_${input_files1[$i]}/k562_1_${input_files1[$i]}_L-tron.bed"
+  input_file2="data/lanceotron/k562_2_${input_files2[$i]}/k562_2_${input_files2[$i]}_L-tron.bed"
+  output_file="data/lanceotron/runningData/k562_${input_files1[$i]}.bed"
+
+  cat "$input_file1" "$input_file2" > "$output_file"
+done
