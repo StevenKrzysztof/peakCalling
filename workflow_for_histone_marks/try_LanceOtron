@@ -4,3 +4,21 @@ bamCoverage --bam data/uniq_hits/k562_1_ctcf_uniq_hits.bam -o data/lanceotron/k5
 bamCoverage --bam data/uniq_hits/k562_1_igg_uniq_hits.bam -o data/lanceotron/k562_1_igg/1_igg.bw --extendReads -bs 1 --normalizeUsing RPKM
 lanceotron callPeaksInput data/lanceotron/k562_1_ctcf/1_ctcf.bw -i data/lanceotron/k562_1_igg/1_igg.bw -f data/lanceotron/k562_1_ctcf/
 lanceotron callPeaksInput data/lanceotron/k562_1_h3k4me3/1_h3k4me3.bw -i data/lanceotron/k562_1_igg/1_igg.bw -f data/lanceotron/k562_1_h3k4me3/
+
+$ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1.xls data/macs2/k562_2_h3k4me1/k562_2_h3k4me1.xls > data/macs2/k562_h3k4me1_peaks.xls
+$ cat data/macs2/k562_1_h3k4me1/k562_1_h3k4me1.narrowPeak data/macs2/k562_2_h3k4me1/k562_2_h3k4me1.narrowPeak > data/macs2/k562_h3k4me1.narrowPeak
+cat data/lanceotron/k562_1_h3k4me3/k562_1_h3k4me3.xls data/lanceotron/k562_2_h3k4me3/k562_2_h3k4me3.xls > data/lanceotron/k562_h3k4me3_peaks.xls
+cat data/lanceotron/k562_1_h3k4me3/k562_1_h3k4me3.narrowPeak data/lanceotron/k562_2_h3k4me3/k562_2_h3k4me3.narrowPeak > data/lanceotron/k562_h3k4me3.narrowPeak
+
+file_list=(
+    "k562_2_h3k4me2"
+    "k562_2_h3k4me1"
+    "k562_2_h3k27ac"
+    "k562_2_ctcf"
+)
+
+input_igg="data/lanceotron/k562_2_igg/k562_2_igg.bw"
+
+for file_name in "${file_list[@]}"; do
+    lanceotron callPeaksInput "data/lanceotron/${file_name}/${file_name}.bw" -i "${input_igg}" -f "data/lanceotron/${file_name}/"
+done
