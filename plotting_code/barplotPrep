@@ -1,0 +1,47 @@
+# Function to calculate metrics
+calculate_metrics() {
+  your_peak_calling_result="$1"
+  encode_chipseq="src/standards/ENCFF885FQN.bed"
+
+  # Calculate True Positives (TP)
+  TP=$(bedtools intersect -u -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Positives (FP)
+  FP=$(bedtools intersect -v -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Negatives (FN)
+  FN=$(bedtools intersect -v -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate True Negatives (TN)
+  # total_genome_regions=$(wc -l < "$encode_chipseq")
+  # TN=$((total_genome_regions - TP - FP - FN))
+  # TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate Precision (Positive Predictive Value)
+  precision=$(awk "BEGIN {print $TP / ($TP + $FP)}")
+
+  # Calculate Recall (Sensitivity or True Positive Rate)
+  recall=$(awk "BEGIN {print $TP / ($TP + $FN)}")
+
+  # Calculate False Positive Rate (FPR)
+  # FPR=$(awk "BEGIN {print $FP / ($FP + $TN)}")
+
+  # Calculate Selectivity (Specificity)
+  # selectivity=$(awk "BEGIN {print $TN / ($TN + $FP)}")
+
+  # Calculate F1 Score
+  F1_score=$(awk "BEGIN {print (2 * $TP) / (2 * $TP + $FP + $FN)}")
+
+  # Return the results as a string
+  echo -e "$1\t$TP\t$FP\t$FN\t$precision\t$recall\t$F1_score"
+}
+
+# Header for the xls file
+echo -e "Method\tTrue Positives (TP)\tFalse Positives (FP)\tFalse Negatives (FN)\tPrecision\tRecall\tF1 Score" > "data/bar/h3k4me3_metrics.xls"
+
+# Calculate metrics and append to the xls file for each method
+calculate_metrics "data/lanceotron/runningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"
+calculate_metrics "data/macs2/bufferrunningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"  # Replace "data/macs2/..." with the actual file path for macs2 input file
+calculate_metrics "data/macs3/bufferrunningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"  # Replace "data/macs3/..." with the actual file path for macs3 input file
+calculate_metrics "data/epic2/runningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"  # Replace "data/epic2/..." with the actual file path for epic2 input file
+calculate_metrics "data/homer/runningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"  # Replace "data/homer/..." with the actual file path for homer input file
