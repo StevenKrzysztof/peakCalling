@@ -60,7 +60,7 @@ bamCoverage --bam data/newForChip/CTCF_sorted.bam -o data/newForChip/CTCF.bw --e
 bamCoverage --bam data/newForChip/ATACseq_sorted.bam -o data/newForChip/ATACseq.bw --extendReads -bs 1 --normalizeUsing RPKM
 
 #run lanceotron peakcalling
-lanceotron callPeaksInput data/newForChip/H3K4me3.bw -i data/newForChip/H3K4me3_control.bw -f data/newForChip/lanceotron/h3k4me3
-lanceotron callPeaksInput data/newForChip/H3K27ac.bw -i data/newForChip/H3K27ac_control.bw -f data/newForChip/lanceotron/h3k27ac
-lanceotron callPeaksInput data/newForChip/CTCF.bw -i data/newForChip/CTCF_control.bw -f data/newForChip/lanceotron/ctcf
-lanceotron callPeaks data/newForChip/ATACseq.bw -f data/newForChip/lanceotron/atac
+lanceotron callPeaksInput data/newForChip/H3K4me3.bw -i data/newForChip/H3K4me3_control.bw -f data/newForChip/lanceotron/h3k4me3/
+lanceotron callPeaksInput data/newForChip/H3K27ac.bw -i data/newForChip/H3K27ac_control.bw -f data/newForChip/lanceotron/h3k27ac/
+lanceotron callPeaksInput data/newForChip/CTCF.bw -i data/newForChip/CTCF_control.bw -f data/newForChip/lanceotron/ctcf/
+lanceotron callPeaks data/newForChip/ATACseq.bw -f data/newForChip/lanceotron/atac/
