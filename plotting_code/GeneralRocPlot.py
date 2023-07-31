@@ -5,64 +5,64 @@ import matplotlib.pyplot as plt
 
 
 #for h3k4me3
-macs3_data_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/singleEnd/macs3_k562_h3k4me3.txt", delimiter='\t')
-macs2_data_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/singleEnd/macs2_k562_h3k4me3.txt", delimiter='\t')
+# macs3_data_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/singleEnd/macs3_k562_h3k4me3.txt", delimiter='\t')
+# macs2_data_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/singleEnd/macs2_k562_h3k4me3.txt", delimiter='\t')
 epic2_data_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/epic2_k562_h3k4me3.txt", delimiter='\t')
-# homer_data_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/homer_k562_h3k4me3.txt", delimiter='\t')
+homer_data_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/homer_k562_h3k4me3.txt", delimiter='\t')
 macs3_pe_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs3_k562_h3k4me3.txt", delimiter='\t')
-# macs2_pe_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs2_k562_h3k4me3.txt", delimiter='\t')
+macs2_pe_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs2_k562_h3k4me3.txt", delimiter='\t')
 macs3_peb_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs3_k562_h3k4me3_broad.txt", delimiter='\t')
-# macs2_peb_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs2_k562_h3k4me3_broad.txt", delimiter='\t')
+macs2_peb_h3k4me3 = pd.read_csv("D:/peakCalling/gopeaks-compare-main/data/evaluate_models/macs2_k562_h3k4me3_broad.txt", delimiter='\t')
 
 # Sort the data by increasing signal values
 macs3_data_h3k4me3.sort_values('signal', inplace=True)
 macs2_data_h3k4me3.sort_values('signal', inplace=True)
 epic2_data_h3k4me3.sort_values('signal', inplace=True)
-# homer_data_h3k4me3.sort_values('signal', inplace=True)
+homer_data_h3k4me3.sort_values('signal', inplace=True)
 macs3_pe_h3k4me3.sort_values('signal', inplace=True)
-# macs2_pe_h3k4me3.sort_values('signal', inplace=True)
+macs2_pe_h3k4me3.sort_values('signal', inplace=True)
 macs3_peb_h3k4me3.sort_values('signal', inplace=True)
-# macs2_peb_h3k4me3.sort_values('signal', inplace=True)
+macs2_peb_h3k4me3.sort_values('signal', inplace=True)
 
 # Calculate True Positive Rate (Recall)
 tpr_macs3_data_h3k4me3 = macs3_data_h3k4me3['recall']
 tpr_macs2_data_h3k4me3 = macs2_data_h3k4me3['recall']
 tpr_epic2_data_h3k4me3 = epic2_data_h3k4me3['recall']
-# tpr_homer_data_h3k4me3 = homer_data_h3k4me3['recall']
+tpr_homer_data_h3k4me3 = homer_data_h3k4me3['recall']
 tpr_macs3_pe_h3k4me3 = macs3_pe_h3k4me3['recall']
-# tpr_macs2_pe_h3k4me3 = macs2_pe_h3k4me3['recall']
+tpr_macs2_pe_h3k4me3 = macs2_pe_h3k4me3['recall']
 tpr_macs3_peb_h3k4me3 = macs3_peb_h3k4me3['recall']
-# tpr_macs2_peb_h3k4me3 = macs2_peb_h3k4me3['recall']
+tpr_macs2_peb_h3k4me3 = macs2_peb_h3k4me3['recall']
 
 # Calculate False Positive Rate
 fpr_macs3_data_h3k4me3 = macs3_data_h3k4me3['fpr']
 fpr_macs2_data_h3k4me3 = macs2_data_h3k4me3['fpr']
 fpr_epic2_data_h3k4me3 = epic2_data_h3k4me3['fpr']
-# fpr_homer_data_h3k4me3 = homer_data_h3k4me3['fpr']
+fpr_homer_data_h3k4me3 = homer_data_h3k4me3['fpr']
 fpr_macs3_pe_h3k4me3 = macs3_pe_h3k4me3['fpr']
-# fpr_macs2_pe_h3k4me3 = macs2_pe_h3k4me3['fpr']
+fpr_macs2_pe_h3k4me3 = macs2_pe_h3k4me3['fpr']
 fpr_macs3_peb_h3k4me3 = macs3_peb_h3k4me3['fpr']
-# fpr_macs2_peb_h3k4me3 = macs2_peb_h3k4me3['fpr']
+fpr_macs2_peb_h3k4me3 = macs2_peb_h3k4me3['fpr']
 
 # precision
 pre_macs3_data_h3k4me3 = macs3_data_h3k4me3['precision']
 pre_macs2_data_h3k4me3 = macs2_data_h3k4me3['precision']
 pre_epic2_data_h3k4me3 = epic2_data_h3k4me3['precision']
-# pre_homer_data_h3k4me3 = homer_data_h3k4me3['precision']
+pre_homer_data_h3k4me3 = homer_data_h3k4me3['precision']
 pre_macs3_pe_h3k4me3 = macs3_pe_h3k4me3['precision']
-# pre_macs2_pe_h3k4me3 = macs2_pe_h3k4me3['precision']
+pre_macs2_pe_h3k4me3 = macs2_pe_h3k4me3['precision']
 pre_macs3_peb_h3k4me3 = macs3_peb_h3k4me3['precision']
-# pre_macs2_peb_h3k4me3 = macs2_peb_h3k4me3['precision']
+pre_macs2_peb_h3k4me3 = macs2_peb_h3k4me3['precision']
 
 # Calculate Area Under the Curve (AUC)
 auc_macs3_data_h3k4me3 = auc(fpr_macs3_data_h3k4me3, tpr_macs3_data_h3k4me3)
 auc_macs2_data_h3k4me3 = auc(fpr_macs2_data_h3k4me3, tpr_macs2_data_h3k4me3)
 auc_epic2_data_h3k4me3 = auc(fpr_epic2_data_h3k4me3, tpr_epic2_data_h3k4me3)
-# auc_homer_data_h3k4me3 = auc(fpr_homer_data_h3k4me3, tpr_homer_data_h3k4me3)
+auc_homer_data_h3k4me3 = auc(fpr_homer_data_h3k4me3, tpr_homer_data_h3k4me3)
 auc_macs3_pe_h3k4me3 = auc(fpr_macs3_pe_h3k4me3, tpr_macs3_pe_h3k4me3)
-# auc_macs2_pe_h3k4me3 = auc(fpr_macs2_pe_h3k4me3, tpr_macs2_pe_h3k4me3)
+auc_macs2_pe_h3k4me3 = auc(fpr_macs2_pe_h3k4me3, tpr_macs2_pe_h3k4me3)
 auc_macs3_peb_h3k4me3 = auc(fpr_macs3_peb_h3k4me3, tpr_macs3_peb_h3k4me3)
-# auc_macs2_peb_h3k4me3 = auc(fpr_macs2_peb_h3k4me3, tpr_macs2_peb_h3k4me3)
+auc_macs2_peb_h3k4me3 = auc(fpr_macs2_peb_h3k4me3, tpr_macs2_peb_h3k4me3)
 
 
 # Set the background color to gray
@@ -81,19 +81,19 @@ plt.plot(fpr_macs2_data_h3k4me3, tpr_macs2_data_h3k4me3, label=f"MACS2 (AUC = {a
 plt.plot(fpr_epic2_data_h3k4me3, tpr_epic2_data_h3k4me3, label=f"EPIC2 (AUC = {auc_epic2_data_h3k4me3:.2f})", linewidth=2, color='green')
 
 # Plot homer ROC curve
-# plt.plot(fpr_homer_data_h3k4me3, tpr_homer_data_h3k4me3, label=f"HOMER (AUC = {auc_homer_data_h3k4me3:.2f})", linewidth=2, color='orange')
+plt.plot(fpr_homer_data_h3k4me3, tpr_homer_data_h3k4me3, label=f"HOMER (AUC = {auc_homer_data_h3k4me3:.2f})", linewidth=2, color='orange')
 
-# # Plot MACS2 ROC curve
+# Plot MACS2 ROC curve
 plt.plot(fpr_macs3_pe_h3k4me3, tpr_macs3_pe_h3k4me3, label=f"MACS3 pe(AUC = {auc_macs3_pe_h3k4me3:.2f})", linewidth=2, color='c')
 
 # Plot MACS3 ROC curve
-# plt.plot(fpr_macs2_pe_h3k4me3, tpr_macs2_pe_h3k4me3, label=f"MACS2 pe(AUC = {auc_macs2_pe_h3k4me3:.2f})", linewidth=2, color='m')
+plt.plot(fpr_macs2_pe_h3k4me3, tpr_macs2_pe_h3k4me3, label=f"MACS2 pe(AUC = {auc_macs2_pe_h3k4me3:.2f})", linewidth=2, color='m')
 
-# # Plot MACS2 ROC curve
+# Plot MACS2 ROC curve
 plt.plot(fpr_macs3_peb_h3k4me3, tpr_macs3_peb_h3k4me3, label=f"MACS3 pe broad(AUC = {auc_macs3_peb_h3k4me3:.2f})", linewidth=2, color='y')
 
 # Plot MACS3 ROC curve
-# plt.plot(fpr_macs2_peb_h3k4me3, tpr_macs2_peb_h3k4me3, label=f"MACS2 pe broad(AUC = {auc_macs2_peb_h3k4me3:.2f})", linewidth=2, color='brown')
+plt.plot(fpr_macs2_peb_h3k4me3, tpr_macs2_peb_h3k4me3, label=f"MACS2 pe broad(AUC = {auc_macs2_peb_h3k4me3:.2f})", linewidth=2, color='brown')
 
 # Plot No Skill ROC curve
 plt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='No Skill')
@@ -125,19 +125,19 @@ plt.plot(tpr_macs2_data_h3k4me3, pre_macs2_data_h3k4me3, label=f"MACS2 PR", line
 plt.plot(tpr_epic2_data_h3k4me3, pre_epic2_data_h3k4me3, label=f"EPIC2 PR", linewidth=2, color='green')
 
 # Plot HOMER Precision-Recall curve
-# plt.plot(tpr_homer_data_h3k4me3, pre_homer_data_h3k4me3, label=f"HOMER PR", linewidth=2, color='orange')
+plt.plot(tpr_homer_data_h3k4me3, pre_homer_data_h3k4me3, label=f"HOMER PR", linewidth=2, color='orange')
 
 # Plot MACS3 Precision-Recall curve
 plt.plot(tpr_macs3_pe_h3k4me3, pre_macs3_pe_h3k4me3, label=f"MACS3 pe PR", linewidth=2, color='c')
 
 # Plot MACS2 Precision-Recall curve
-# plt.plot(tpr_macs2_pe_h3k4me3, pre_macs2_pe_h3k4me3, label=f"MACS2 pe PR", linewidth=2, color='m')
+plt.plot(tpr_macs2_pe_h3k4me3, pre_macs2_pe_h3k4me3, label=f"MACS2 pe PR", linewidth=2, color='m')
 
 # Plot MACS3 Precision-Recall curve
 plt.plot(tpr_macs3_peb_h3k4me3, pre_macs3_peb_h3k4me3, label=f"MACS3 pe broad PR", linewidth=2, color='y')
 
 # Plot MACS2 Precision-Recall curve
-# plt.plot(tpr_macs2_peb_h3k4me3, pre_macs2_peb_h3k4me3, label=f"MACS2 pe broad PR", linewidth=2, color='brown')
+plt.plot(tpr_macs2_peb_h3k4me3, pre_macs2_peb_h3k4me3, label=f"MACS2 pe broad PR", linewidth=2, color='brown')
 
 
 # Set plot labels and title
