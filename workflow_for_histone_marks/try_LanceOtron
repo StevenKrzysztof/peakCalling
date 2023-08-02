@@ -50,6 +50,11 @@ samtools sort -o data/newForChip/CTCF_control_sorted.bam data/newForChip/CTCF_co
 samtools sort -o data/newForChip/CTCF_sorted.bam data/newForChip/CTCF.bam
 samtools sort -o data/newForChip/ATACseq_sorted.bam data/newForChip/ATACseq.bam
 
+#build index
+samtools index data/newForChip/H3K4me3_control_sorted.bam
+samtools index data/newForChip/H3K4me3_sorted.bam
+
+
 #create bigwig file for input
 bamCoverage --bam data/newForChip/H3K4me3_control_sorted.bam -o data/newForChip/H3K4me3_control.bw --extendReads -bs 1 --normalizeUsing RPKM
 bamCoverage --bam data/newForChip/H3K4me3_sorted.bam -o data/newForChip/H3K4me3.bw --extendReads -bs 1 --normalizeUsing RPKM
