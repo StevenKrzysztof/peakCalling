@@ -1,0 +1,18 @@
+epic2 -t data/newForChip/H3K27ac.bam --genome hg38 >  data/newForChip/results/epic2/epic2_h3k27acw
+epic2 -t data/newForChip/H3K4me3.bam --genome hg38 >  data/newForChip/results/epic2/epic2_h3k4me3w
+epic2 -t data/newForChip/CTCF.bam --genome hg38 >  data/newForChip/results/epic2/epic2_ctcfw
+macs2 callpeak -t data/newForChip/H3K4me3.bam -f BAMPE -g hs -n data/newForChip/results/macs2/macs2_h3k4me3w
+macs3 callpeak -t data/newForChip/H3K4me3.bam -f BAMPE -g hs -n data/newForChip/results/macs3/macs3_h3k4me3w
+macs2 callpeak -t data/newForChip/H3K4me3.bam -f BAMPE -g hs --broad --broad-cutoff 0.1 -n data/newForChip/results/macs2/macs2_h3k4me3w_broad
+macs3 callpeak -t data/newForChip/H3K4me3.bam -f BAMPE -g hs --broad --broad-cutoff 0.1 -n data/newForChip/results/macs3/macs3_h3k4me3w_broad
+macs3 callpeak -t data/newForChip/H3K27ac.bam -f BAMPE -g hs -n data/newForChip/results/macs3/macs3_h3k27acw
+macs3 callpeak -t data/newForChip/H3K27ac.bam -f BAMPE -g hs --broad --broad-cutoff 0.1 -n data/newForChip/results/macs3/macs3_h3k27acw_broad
+macs3 callpeak -t data/newForChip/CTCF.bam -f BAMPE -g hs -n data/newForChip/results/macs3/macs3_CTCFw
+macs3 callpeak -t data/newForChip/CTCF.bam -f BAMPE -g hs --broad --broad-cutoff 0.1 -n data/newForChip/results/macs3/macs3_CTCFw_broad
+macs2 callpeak -t data/newForChip/H3K27ac.bam -f BAMPE -g hs -n data/newForChip/results/macs2/macs2_h3k27acw
+macs2 callpeak -t data/newForChip/H3K27ac.bam -f BAMPE -g hs --broad --broad-cutoff 0.1 -n data/newForChip/results/macs2/macs2_h3k27acw_broad
+macs2 callpeak -t data/newForChip/CTCF.bam -f BAMPE -g hs -n data/newForChip/results/macs2/macs2_CTCFw
+macs2 callpeak -t data/newForChip/CTCF.bam -f BAMPE -g hs --broad --broad-cutoff 0.1 -n data/newForChip/results/macs2/macs2_CTCFw_broad
+lanceotron callPeaks data/newForChip/CTCF.bw -f data/lanceotron/ctcfw
+lanceotron callPeaks data/newForChip/H3K4me3.bw -f data/lanceotron/H3K4me3w
+lanceotron callPeaks data/newForChip/H3K27ac.bw -f data/lanceotron/H3K27acw
