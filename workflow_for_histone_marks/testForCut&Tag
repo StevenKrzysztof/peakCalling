@@ -15,11 +15,15 @@ epic2 -t 05_0005_5239ICR_GS5-WT-P20-1_H3K27me3_hg38_N703-501_uniqnorm_hits.bed -
 
 macs3 callpeak -t 01_0001_5239ICR_MCF10a-WT-P15-1_H3K27Ac_hg38_N701-501_uniqnorm_hits.bed -f BEDPE -g hs -n macs3result/01_0001_5239ICR_MCF10a-WT-P15-1_H3K27Ac_hg38_N701-501_uniqnorm_hits
 macs3 callpeak -t 02_0002_5239ICR_MCF10a-WT-P15-2_H3K27Ac_hg38_N702-501_uniqnorm_hits.bed -f BEDPE -g hs -n macs3result/02_0002_5239ICR_MCF10a-WT-P15-2_H3K27Ac_hg38_N702-501_uniqnorm_hits
-macs3 callpeak -t 03_0003_5239ICR_MCF10a-WT-P15-3_H3K27me3_hg38_N701-502_uniqnorm_hits.bed -f BEDPE -g hs -n macs3result/03_0003_5239ICR_MCF10a-WT-P15-3_H3K27me3_hg38_N701-502_uniqnorm_hits
+macs3 callpeak -t 03_0003_5239ICR_MCF10a-WT-P15-3_H3K27me3_hg38_N701-502_uniqnorm_hits.bed --broad -f BEDPE -g hs -n macs3result/sample3_broad
 macs3 callpeak -t 04_0004_5239ICR_MCF10a-WT-P15-4_H3K27me3_hg38_N702-502_uniqnorm_hits.bed -f BEDPE -g hs -n macs3result/04_0004_5239ICR_MCF10a-WT-P15-4_H3K27me3_hg38_N702-502_uniqnorm_hits
 macs3 callpeak -t 05_0005_5239ICR_GS5-WT-P20-1_H3K27me3_hg38_N703-501_uniqnorm_hits.bed -f BEDPE -g hs -n macs3result/05_0005_5239ICR_GS5-WT-P20-1_H3K27me3_hg38_N703-501_uniqnorm_hits
 
 
 awk '{print $1"\t"$2"\t"$3"\t"$4"\t0\t."}' sample1test.bed > sample1tests.bed
-awk '{print $1"\t"$2"\t"$3"\t"$4"\t0\t."}' sample1test.bed > sample1tests.bed
-epic2 -t sample1tests.bed --genome hg38 > sample1.txt
+awk '{print $1"\t"$2"\t"$3"\t"NR"\t0\t."}' sample1test.bed > sample1tests.bed
+epic2 -t sample1.bam --guess-bampe --genome hg38 > sample1.txt
+epic2 -t sample1.bed --genome hg38 > sample1.txt
+epic2 -t sample5.bed --genome hg38 > sample5.txt
+epic2 -t sample2.bed --genome hg38 > sample2.txt
+epic2 -t sample4.bed --genome hg38 > sample4.txt
