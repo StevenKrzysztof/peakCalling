@@ -149,10 +149,12 @@ mv data/raw/SRR8748821_2.fastq data/raw/H1D5_1_IgG_R2.fastq
 #----------------------------------------------------------------------------------------------------------
 
 #get the data
-wget -O data/H3K4me3_control.bam "https://www.encodeproject.org/files/ENCFF381RWF/@@download/ENCFF381RWF.bam"
-wget -O data/H3K4me3.bam "https://www.encodeproject.org/files/ENCFF996ZSR/@@download/ENCFF996ZSR.bam"
-wget -O data/H3K27ac_control.bam "https://www.encodeproject.org/files/ENCFF247DSQ/@@download/ENCFF247DSQ.bam"
-wget -O data/H3K27ac.bam "https://www.encodeproject.org/files/ENCFF742SZS/@@download/ENCFF742SZS.bam"
+wget -O data/MG63_control.bam "https://www.encodeproject.org/files/ENCFF381RWF/@@download/ENCFF381RWF.bam"
+wget -O data/MG63_H3K4me3.bam "https://www.encodeproject.org/files/ENCFF996ZSR/@@download/ENCFF996ZSR.bam"
+wget -O data/MG63_H3K27me3.bam "https://www.encodeproject.org/experiments/ENCSR804JFU/@@download/ENCSR804JFU.bam"
+wget -O data/HAP1_control.bam "https://www.encodeproject.org/files/ENCFF247DSQ/@@download/ENCFF247DSQ.bam"
+wget -O data/HAP1_H3K4me1.bam "https://www.encodeproject.org/files/ENCSR450JTP/@@download/ENCSR450JTP.bam"
+wget -O data/HAP1_H3K27ac.bam "https://www.encodeproject.org/files/ENCFF742SZS/@@download/ENCFF742SZS.bam"
 wget -O data/CTCF_control.bam "https://www.encodeproject.org/files/ENCFF376BTL/@@download/ENCFF376BTL.bam"
 wget -O data/CTCF.bam "https://www.encodeproject.org/files/ENCFF903NKV/@@download/ENCFF903NKV.bam"
 wget -O data/ATACseq.bam "https://www.encodeproject.org/files/ENCFF346MIJ/@@download/ENCFF346MIJ.bam"
