@@ -1,6 +1,11 @@
 # peakCalling
 Practice of prevailing methods and record important progress
 
+#the first step is to download all the data from SRA dataset.
+use the code in dataPreparation.sh to download all the data.
+
+#the second step is to install all the peak callers and packages
+
 #note that the files in macs2 and macs3 generated bed files:
 NAME_peaks.narrowPeak is BED6+4 format file which contains the peak locations together with peak summit, pvalue and qvalue. You can load it to UCSC genome browser. Definition of some specific columns are:
 
