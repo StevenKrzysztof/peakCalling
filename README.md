@@ -1,9 +1,9 @@
 # peakCalling
 Practice of prevailing methods and record important progress
 
-#the first step is to download all the data from SRA dataset.
+## the first step is to download all the data from SRA dataset.
 
-use the code in dataPreparation.sh to download all the data.
+>use the code in dataPreparation.sh to download all the data.
 
 #the second step is to install all the peak callers and packages
 
