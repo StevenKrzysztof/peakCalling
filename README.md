@@ -9,21 +9,21 @@ Practice of prevailing methods and record important progress
 
 ### For MACS2&3
 
-```
-sudo apt install macs
-pip install MACS3
-```
+
+>sudo apt install macs
+>pip install MACS3
+
 
 example use:
 > macs2 callpeak -t data/uniq_hits/k562_2_h3k27ac_uniq_hits.bam -c data/uniq_hits/k562_2_igg_uniq_hits.bam -f BAM -g hs -n data/macs2/k562_2_h3k27ac > data/logs/macs2_k562_2_h3k27ac.log 2>&1
 
 ### For EPIC2
 
-```
-pip install cython
-pip install pyranges
-conda install -c bioconda epic2
-```
+
+>pip install cython
+>pip install pyranges
+>conda install -c bioconda epic2
+
 
 > [reference tutorail](https://github.com/biocore-ntnu/epic2)
 
@@ -32,9 +32,9 @@ example use:
 
 ### For Homer
 
-```
-conda install -c bioconda homer
-```
+
+>conda install -c bioconda homer
+
 example use:
 >makeTagDirectory data/homer data/uniq_hits/h1d1_1_sox2_uniq_hits.bam
 >makeTagDirectory data/homer/h1d1_1_igg data/uniq_hits/h1d1_1_igg_uniq_hits.bam
@@ -44,10 +44,10 @@ example use:
 
 > [online website](https://seacr.fredhutch.org/)
 
-```
-sudo apt install bedtools
-sudo apt-get install r-base
-```
+
+>sudo apt install bedtools
+>sudo apt-get install r-base
+
 
 example use:
 >bash SEACR_1.3.sh Testfiles/CTCF_DE_chr1_100Mb.bedgraph.txt Testfiles/IgG_DE_chr1_100Mb.bedgraph.txt norm stringent Testfiles/CTCF_DE_chr1_100Mb
@@ -55,13 +55,13 @@ example use:
 
 ### For LanceOtron
 
-```
-pip install pandas
-pip install matplotlib
-pip install pybedtools
-pip install seaborn
-pip install lanceotron
-```
+
+>pip install pandas
+>pip install matplotlib
+>pip install pybedtools
+>pip install seaborn
+>pip install lanceotron
+
 
 example use:
 >lanceotron callPeaksInput data/H3K4me3.bw -i data/H3K4me3_control.bw -f data/lanceotron/h3k4me3/
