@@ -66,3 +66,16 @@ example use:
 example use:
 >lanceotron callPeaksInput data/H3K4me3.bw -i data/H3K4me3_control.bw -f data/lanceotron/h3k4me3/
 
+
+## Third step: to run peak callers for data.
+
+run code in codeForData
+
+## Fourth step: get the model evaluation.
+
+first run the barplotPrep in plottingCode folder to get the xls file for each histone mark
+then run methodsCompare.R in plottingCode folder
+
+## Fifth step: draw ROC/AUC curve.
+
+run 
