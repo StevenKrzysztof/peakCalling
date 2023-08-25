@@ -78,4 +78,11 @@ then run methodsCompare.R in plottingCode folder
 
 ## Fifth step: draw ROC/AUC curve.
 
-run 
+run snakemake file for each histone mark.
+
+example:
+>snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs3_k562_h3k4me2_broad.txt
+
+The snakemake files are in folder rules.
+
+Then run ROCnAUC_plot.py in folder plottingCode to get the plot 
