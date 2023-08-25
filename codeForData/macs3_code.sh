@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the command and common options
-command="macs3 callpeak -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAM -g 2.9e9 -B -q 0.01"
+command="macs3 callpeak -c data/uniq_hits/k562_1_igg_uniq_hits.bam -f BAMPE -g 2.9e9 -B -q 0.01"
 
 # Iterate over the file list
 file_list=(
