@@ -1,6 +1,113 @@
-# Function to calculate metrics
+# H3K4me1
 calculate_metrics() {
-  your_peak_calling_result="$1"
+  method_name="$1"
+  your_peak_calling_result="$2"
+  encode_chipseq="src/standards/ENCFF759NWD.bed"
+
+  # Calculate True Positives (TP)
+  TP=$(bedtools intersect -u -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Positives (FP)
+  FP=$(bedtools intersect -v -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Negatives (FN)
+  FN=$(bedtools intersect -v -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate True Negatives (TN)
+  TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+  # total_genome_regions=$(wc -l < "$encode_chipseq")
+  # TN=$((total_genome_regions - TP - FP - FN))
+  # TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate Precision (Positive Predictive Value)
+  precision=$(awk "BEGIN {print $TP / ($TP + $FP)}")
+
+  # Calculate Recall (Sensitivity or True Positive Rate)
+  recall=$(awk "BEGIN {print $TP / ($TP + $FN)}")
+
+  #calculate selectivity
+  Selectivity=$(awk "BEGIN {print $TN  / ($FP + $TN)}")
+
+  # Calculate Accuracy
+  Accuracy=$(awk "BEGIN {print ($TN + $TP) / ($TP + $FN + $FP + $TN)}")
+
+  # Calculate F1 Score
+  F1_score=$(awk "BEGIN {print (2 * $TP) / (2 * $TP + $FP + $FN)}")
+
+  # Return the results as a string
+  echo -e "$method_name\t$TP\t$FP\t$FN\t$TN\t$precision\t$recall\t$F1_score\t$Accuracy\t$Selectivity"
+}
+
+# Header for the xls file
+echo -e "Method\tTrue Positives (TP)\tFalse Positives (FP)\tFalse Negatives (FN)\tTrue Negatives (TN)\tPrecision\tRecall\tF1 Score\tAcurracy\tSelectivity" > "data/bar/CnR_h3k4me1_metrics.xls"
+
+# Calculate metrics and append to the xls file for each method
+calculate_metrics "lanceotron" "data/lanceotron/runningData/k562_h3k4me1_peaks.xls" >> "data/bar/CnR_h3k4me1_metrics.xls"
+calculate_metrics "macs2" "data/macs2/runningData/k562_h3k4me1_peak.narrowPeak" >> "data/bar/CnR_h3k4me1_metrics.xls"
+calculate_metrics "macs2broad" "data/macs2/runningDataBroad/k562_h3k4me1_broad_peak.broadPeak" >> "data/bar/CnR_h3k4me1_metrics.xls"
+calculate_metrics "macs3" "data/macs3/runningData/k562_h3k4me1_peak.narrowPeak" >> "data/bar/CnR_h3k4me1_metrics.xls"
+calculate_metrics "macs3broad" "data/macs3/runningDataBroad/k562_h3k4me1_broad_peak.broadPeak" >> "data/bar/CnR_h3k4me1_metrics.xls"
+calculate_metrics "epic2" "data/epic2/runningData/k562_h3k4me1_peaks.narrowPeak" >> "data/bar/CnR_h3k4me1_metrics.xls"
+
+
+
+# h3k4me2
+calculate_metrics() {
+  method_name="$1"
+  your_peak_calling_result="$2"
+  encode_chipseq="src/standards/ENCFF256AQN.bed"
+
+  # Calculate True Positives (TP)
+  TP=$(bedtools intersect -u -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Positives (FP)
+  FP=$(bedtools intersect -v -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Negatives (FN)
+  FN=$(bedtools intersect -v -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate True Negatives (TN)
+  TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+  # total_genome_regions=$(wc -l < "$encode_chipseq")
+  # TN=$((total_genome_regions - TP - FP - FN))
+  # TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate Precision (Positive Predictive Value)
+  precision=$(awk "BEGIN {print $TP / ($TP + $FP)}")
+
+  # Calculate Recall (Sensitivity or True Positive Rate)
+  recall=$(awk "BEGIN {print $TP / ($TP + $FN)}")
+
+  #calculate selectivity
+  Selectivity=$(awk "BEGIN {print $TN  / ($FP + $TN)}")
+
+  # Calculate Accuracy
+  Accuracy=$(awk "BEGIN {print ($TN + $TP) / ($TP + $FN + $FP + $TN)}")
+
+  # Calculate F1 Score
+  F1_score=$(awk "BEGIN {print (2 * $TP) / (2 * $TP + $FP + $FN)}")
+
+  # Return the results as a string
+  echo -e "$method_name\t$TP\t$FP\t$FN\t$TN\t$precision\t$recall\t$F1_score\t$Accuracy\t$Selectivity"
+}
+
+# Header for the xls file
+echo -e "Method\tTrue Positives (TP)\tFalse Positives (FP)\tFalse Negatives (FN)\tTrue Negatives (TN)\tPrecision\tRecall\tF1 Score\tAcurracy\tSelectivity" > "data/bar/CnR_h3k4me2_metrics.xls"
+
+# Calculate metrics and append to the xls file for each method
+calculate_metrics "lanceotron" "data/lanceotron/runningData/k562_h3k4me2_peaks.xls" >> "data/bar/CnR_h3k4me2_metrics.xls"
+calculate_metrics "macs2" "data/macs2/runningData/k562_h3k4me2_peak.narrowPeak" >> "data/bar/CnR_h3k4me2_metrics.xls"
+calculate_metrics "macs2broad" "data/macs2/runningDataBroad/k562_h3k4me2_broad_peak.broadPeak" >> "data/bar/CnR_h3k4me2_metrics.xls"
+calculate_metrics "macs3" "data/macs3/runningData/k562_h3k4me2_peak.narrowPeak" >> "data/bar/CnR_h3k4me2_metrics.xls"
+calculate_metrics "macs3broad" "data/macs3/runningDataBroad/k562_h3k4me2_broad_peak.broadPeak" >> "data/bar/CnR_h3k4me2_metrics.xls"
+calculate_metrics "epic2" "data/epic2/runningData/k562_h3k4me2_peaks.narrowPeak" >> "data/bar/CnR_h3k4me2_metrics.xls"
+
+
+
+# h3k4me3
+calculate_metrics() {
+  method_name="$1"
+  your_peak_calling_result="$2"
   encode_chipseq="src/standards/ENCFF885FQN.bed"
 
   # Calculate True Positives (TP)
@@ -13,6 +120,7 @@ calculate_metrics() {
   FN=$(bedtools intersect -v -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
 
   # Calculate True Negatives (TN)
+  TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
   # total_genome_regions=$(wc -l < "$encode_chipseq")
   # TN=$((total_genome_regions - TP - FP - FN))
   # TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
@@ -23,25 +131,190 @@ calculate_metrics() {
   # Calculate Recall (Sensitivity or True Positive Rate)
   recall=$(awk "BEGIN {print $TP / ($TP + $FN)}")
 
-  # Calculate False Positive Rate (FPR)
-  # FPR=$(awk "BEGIN {print $FP / ($FP + $TN)}")
+  #calculate selectivity
+  Selectivity=$(awk "BEGIN {print $TN  / ($FP + $TN)}")
 
-  # Calculate Selectivity (Specificity)
-  # selectivity=$(awk "BEGIN {print $TN / ($TN + $FP)}")
+  # Calculate Accuracy
+  Accuracy=$(awk "BEGIN {print ($TN + $TP) / ($TP + $FN + $FP + $TN)}")
 
   # Calculate F1 Score
   F1_score=$(awk "BEGIN {print (2 * $TP) / (2 * $TP + $FP + $FN)}")
 
   # Return the results as a string
-  echo -e "$1\t$TP\t$FP\t$FN\t$precision\t$recall\t$F1_score"
+  echo -e "$method_name\t$TP\t$FP\t$FN\t$TN\t$precision\t$recall\t$F1_score\t$Accuracy\t$Selectivity"
 }
 
 # Header for the xls file
-echo -e "Method\tTrue Positives (TP)\tFalse Positives (FP)\tFalse Negatives (FN)\tPrecision\tRecall\tF1 Score" > "data/bar/h3k4me3_metrics.xls"
+echo -e "Method\tTrue Positives (TP)\tFalse Positives (FP)\tFalse Negatives (FN)\tTrue Negatives (TN)\tPrecision\tRecall\tF1 Score\tAcurracy\tSelectivity" > "data/bar/CnR_h3k4me3_metrics.xls"
 
 # Calculate metrics and append to the xls file for each method
-calculate_metrics "data/lanceotron/runningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"
-calculate_metrics "data/macs2/bufferrunningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"  # Replace "data/macs2/..." with the actual file path for macs2 input file
-calculate_metrics "data/macs3/bufferrunningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"  # Replace "data/macs3/..." with the actual file path for macs3 input file
-calculate_metrics "data/epic2/runningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"  # Replace "data/epic2/..." with the actual file path for epic2 input file
-calculate_metrics "data/homer/runningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/h3k4me3_metrics.xls"  # Replace "data/homer/..." with the actual file path for homer input file
+calculate_metrics "lanceotron" "data/lanceotron/runningData/k562_h3k4me3_peaks.xls" >> "data/bar/CnR_h3k4me3_metrics.xls"
+calculate_metrics "macs2" "data/macs2/runningData/k562_h3k4me3_peak.narrowPeak" >> "data/bar/CnR_h3k4me3_metrics.xls"
+calculate_metrics "macs2broad" "data/macs2/runningDataBroad/k562_h3k4me3_broad_peak.broadPeak" >> "data/bar/CnR_h3k4me3_metrics.xls"
+calculate_metrics "macs3" "data/macs3/runningData/k562_h3k4me3_peak.narrowPeak" >> "data/bar/CnR_h3k4me3_metrics.xls"
+calculate_metrics "macs3broad" "data/macs3/runningDataBroad/k562_h3k4me3_broad_peak.broadPeak" >> "data/bar/CnR_h3k4me3_metrics.xls"
+calculate_metrics "epic2" "data/epic2/runningData/k562_h3k4me3_peaks.narrowPeak" >> "data/bar/CnR_h3k4me3_metrics.xls"
+
+
+
+
+# h3k27me3
+calculate_metrics() {
+  method_name="$1"
+  your_peak_calling_result="$2"
+  encode_chipseq="src/standards/ENCFF795ZOS.bed"
+
+  # Calculate True Positives (TP)
+  TP=$(bedtools intersect -u -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Positives (FP)
+  FP=$(bedtools intersect -v -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Negatives (FN)
+  FN=$(bedtools intersect -v -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate True Negatives (TN)
+  TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+  # total_genome_regions=$(wc -l < "$encode_chipseq")
+  # TN=$((total_genome_regions - TP - FP - FN))
+  # TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate Precision (Positive Predictive Value)
+  precision=$(awk "BEGIN {print $TP / ($TP + $FP)}")
+
+  # Calculate Recall (Sensitivity or True Positive Rate)
+  recall=$(awk "BEGIN {print $TP / ($TP + $FN)}")
+
+  #calculate selectivity
+  Selectivity=$(awk "BEGIN {print $TN  / ($FP + $TN)}")
+
+  # Calculate Accuracy
+  Accuracy=$(awk "BEGIN {print ($TN + $TP) / ($TP + $FN + $FP + $TN)}")
+
+  # Calculate F1 Score
+  F1_score=$(awk "BEGIN {print (2 * $TP) / (2 * $TP + $FP + $FN)}")
+
+  # Return the results as a string
+  echo -e "$method_name\t$TP\t$FP\t$FN\t$TN\t$precision\t$recall\t$F1_score\t$Accuracy\t$Selectivity"
+}
+
+# Header for the xls file
+echo -e "Method\tTrue Positives (TP)\tFalse Positives (FP)\tFalse Negatives (FN)\tTrue Negatives (TN)\tPrecision\tRecall\tF1 Score\tAcurracy\tSelectivity" > "data/bar/CnR_h3k27me3_metrics.xls"
+
+# Calculate metrics and append to the xls file for each method
+calculate_metrics "lanceotron" "data/lanceotron/runningData/k562_h3k27me3_peaks.xls" >> "data/bar/CnR_h3k27me3_metrics.xls"
+calculate_metrics "macs2" "data/macs2/runningData/k562_h3k27me3_peak.narrowPeak" >> "data/bar/CnR_h3k27me3_metrics.xls"
+calculate_metrics "macs2broad" "data/macs2/runningDataBroad/k562_h3k27me3_broad_peak.broadPeak" >> "data/bar/CnR_h3k27me3_metrics.xls"
+calculate_metrics "macs3" "data/macs3/runningData/k562_h3k27me3_peak.narrowPeak" >> "data/bar/CnR_h3k27me3_metrics.xls"
+calculate_metrics "macs3broad" "data/macs3/runningDataBroad/k562_h3k27me3_broad_peak.broadPeak" >> "data/bar/CnR_h3k27me3_metrics.xls"
+calculate_metrics "epic2" "data/epic2/runningData/k562_h3k27me3_peaks.narrowPeak" >> "data/bar/CnR_h3k27me3_metrics.xls"
+
+
+
+
+
+# h3k27ac
+calculate_metrics() {
+  method_name="$1"
+  your_peak_calling_result="$2"
+  encode_chipseq="src/standards/SRX4143063.10.bed"
+
+  # Calculate True Positives (TP)
+  TP=$(bedtools intersect -u -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Positives (FP)
+  FP=$(bedtools intersect -v -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Negatives (FN)
+  FN=$(bedtools intersect -v -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate True Negatives (TN)
+  TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+  # total_genome_regions=$(wc -l < "$encode_chipseq")
+  # TN=$((total_genome_regions - TP - FP - FN))
+  # TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate Precision (Positive Predictive Value)
+  precision=$(awk "BEGIN {print $TP / ($TP + $FP)}")
+
+  # Calculate Recall (Sensitivity or True Positive Rate)
+  recall=$(awk "BEGIN {print $TP / ($TP + $FN)}")
+
+  #calculate selectivity
+  Selectivity=$(awk "BEGIN {print $TN  / ($FP + $TN)}")
+
+  # Calculate Accuracy
+  Accuracy=$(awk "BEGIN {print ($TN + $TP) / ($TP + $FN + $FP + $TN)}")
+
+  # Calculate F1 Score
+  F1_score=$(awk "BEGIN {print (2 * $TP) / (2 * $TP + $FP + $FN)}")
+
+  # Return the results as a string
+  echo -e "$method_name\t$TP\t$FP\t$FN\t$TN\t$precision\t$recall\t$F1_score\t$Accuracy\t$Selectivity"
+}
+
+# Header for the xls file
+echo -e "Method\tTrue Positives (TP)\tFalse Positives (FP)\tFalse Negatives (FN)\tTrue Negatives (TN)\tPrecision\tRecall\tF1 Score\tAcurracy\tSelectivity" > "data/bar/CnR_h3k27ac_metrics.xls"
+
+# Calculate metrics and append to the xls file for each method
+calculate_metrics "lanceotron" "data/lanceotron/runningData/k562_h3k27ac_peaks.xls" >> "data/bar/CnR_h3k27ac_metrics.xls"
+calculate_metrics "macs2" "data/macs2/runningData/k562_h3k27ac_peak.narrowPeak" >> "data/bar/CnR_h3k27ac_metrics.xls"
+calculate_metrics "macs2broad" "data/macs2/runningDataBroad/k562_h3k27ac_broad_peak.broadPeak" >> "data/bar/CnR_h3k27ac_metrics.xls"
+calculate_metrics "macs3" "data/macs3/runningData/k562_h3k27ac_peak.narrowPeak" >> "data/bar/CnR_h3k27ac_metrics.xls"
+calculate_metrics "macs3broad" "data/macs3/runningDataBroad/k562_h3k27ac_broad_peak.broadPeak" >> "data/bar/CnR_h3k27ac_metrics.xls"
+calculate_metrics "epic2" "data/epic2/runningData/k562_h3k27ac_peaks.narrowPeak" >> "data/bar/CnR_h3k27ac_metrics.xls"
+
+
+
+
+
+# ctcf
+calculate_metrics() {
+  method_name="$1"
+  your_peak_calling_result="$2"
+  encode_chipseq="src/standards/ENCFF660GHM.bed"
+
+  # Calculate True Positives (TP)
+  TP=$(bedtools intersect -u -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Positives (FP)
+  FP=$(bedtools intersect -v -a "$your_peak_calling_result" -b "$encode_chipseq" | wc -l)
+
+  # Calculate False Negatives (FN)
+  FN=$(bedtools intersect -v -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate True Negatives (TN)
+  TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+  # total_genome_regions=$(wc -l < "$encode_chipseq")
+  # TN=$((total_genome_regions - TP - FP - FN))
+  # TN=$(bedtools intersect -u -a "$encode_chipseq" -b "$your_peak_calling_result" | wc -l)
+
+  # Calculate Precision (Positive Predictive Value)
+  precision=$(awk "BEGIN {print $TP / ($TP + $FP)}")
+
+  # Calculate Recall (Sensitivity or True Positive Rate)
+  recall=$(awk "BEGIN {print $TP / ($TP + $FN)}")
+
+  #calculate selectivity
+  Selectivity=$(awk "BEGIN {print $TN  / ($FP + $TN)}")
+
+  # Calculate Accuracy
+  Accuracy=$(awk "BEGIN {print ($TN + $TP) / ($TP + $FN + $FP + $TN)}")
+
+  # Calculate F1 Score
+  F1_score=$(awk "BEGIN {print (2 * $TP) / (2 * $TP + $FP + $FN)}")
+
+  # Return the results as a string
+  echo -e "$method_name\t$TP\t$FP\t$FN\t$TN\t$precision\t$recall\t$F1_score\t$Accuracy\t$Selectivity"
+}
+
+# Header for the xls file
+echo -e "Method\tTrue Positives (TP)\tFalse Positives (FP)\tFalse Negatives (FN)\tTrue Negatives (TN)\tPrecision\tRecall\tF1 Score\tAcurracy\tSelectivity" > "data/bar/CnR_ctcf_metrics.xls"
+
+# Calculate metrics and append to the xls file for each method
+calculate_metrics "lanceotron" "data/lanceotron/runningData/k562_ctcf_peaks.xls" >> "data/bar/CnR_ctcf_metrics.xls"
+calculate_metrics "macs2" "data/macs2/runningData/k562_ctcf_peak.narrowPeak" >> "data/bar/CnR_ctcf_metrics.xls"
+calculate_metrics "macs2broad" "data/macs2/runningDataBroad/k562_ctcf_broad_peak.broadPeak" >> "data/bar/CnR_ctcf_metrics.xls"
+calculate_metrics "macs3" "data/macs3/runningData/k562_ctcf_peak.narrowPeak" >> "data/bar/CnR_ctcf_metrics.xls"
+calculate_metrics "macs3broad" "data/macs3/runningDataBroad/k562_ctcf_broad_peak.broadPeak" >> "data/bar/CnR_ctcf_metrics.xls"
+calculate_metrics "epic2" "data/epic2/runningData/k562_ctcf_peaks.narrowPeak" >> "data/bar/CnR_ctcf_metrics.xls"
