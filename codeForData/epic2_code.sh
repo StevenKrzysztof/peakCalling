@@ -15,7 +15,7 @@ file_list=(
 
 for file in "${file_list[@]}"; do
   # Build the full command for each file
-  full_command="epic2 -t data/uniq_hits/${file}_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam --genome hg38 --output data/epic2/${file}/${file}.bed"
+  full_command="epic2 -t data/uniq_hits/${file}_uniq_hits.bam -c data/uniq_hits/k562_1_igg_uniq_hits.bam --genome hg38 --guess-bampe --output data/epic2/${file}/${file}.bed"
 
   # Execute the command
   echo "Running command for file: ${file}"
