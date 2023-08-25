@@ -1,5 +1,8 @@
 # peakCalling
 Practice of prevailing methods and record important progress
+the used data are from ENCODE and SRA datasets.
+ENCODE Cut&Tag data are from article [GoPeaks: histone modification peak calling for CUT&Tag](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-022-02707-w)
+SRA ChIP data are from article [LanceOtron: a deep learning peak caller for genome sequencing experiments](https://academic.oup.com/bioinformatics/article/38/18/4255/6648462)
 
 ## First step: to download all the data from SRA dataset.
 
