@@ -79,6 +79,7 @@ then run methodsCompare.R in plottingCode folder
 ## Fifth step: draw ROC/AUC curve.
 
 run snakemake file for each histone mark.
+for epic2 generated files, remember to first run the *epic2Preprocess.R* in plottingCodes folder
 
 example:
 >snakemake --cores 1 --snakefile rules/evaluate_models_broad.py data/evaluate_models/macs3_k562_h3k4me2_broad.txt
