@@ -42,7 +42,7 @@ threshold() {
 
 # file I/O ------------------------------------------------------------------------------
 
-file=$(find data/homer -name "${sample}*Peak") # this workaround accommodates for narrowPeak and broadPeak inputs
+file=$(find data/homer/runningData -name "${sample}*Peak") # this workaround accommodates for narrowPeak and broadPeak inputs
 
 # identify method, condition, replicate, mark
 method="homer"

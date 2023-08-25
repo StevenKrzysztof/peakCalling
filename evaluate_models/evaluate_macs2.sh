@@ -40,7 +40,7 @@ threshold() {
 
 # file I/O ------------------------------------------------------------------------------
 
-file=$(find data/macs2 -name "${sample}*Peak") # this workaround accommodates for narrowPeak and broadPeak inputs
+file=$(find data/macs2/runningData -name "${sample}*Peak") # this workaround accommodates for narrowPeak and broadPeak inputs
 
 # identify method,condition,replicate,mark
 method="macs2"
@@ -56,7 +56,7 @@ echo -e "method\tcondition\treplicate\tmark\tsignal\tTP\tFP\tFN\tTN\tprecision\t
 # identify all pvals within a sample.
 sample_file=$(awk -v OFS='\t' '{print $0,10**-$9}' $file | grep -vi "inf" | sort -rg -k11)
 sample_pvals=$(echo "$sample_file" | cut -f11 | uniq)
-sample_file_handle="data/evaluate_models/${method}_${condition}_${replicate}_${mark}.tmp.txt" # create tmp file to threshold from
+sample_file_handle="data/evaluate_models/macs2_${sample}.tmp.txt" # create tmp file to threshold from
 echo "$sample_file" > $sample_file_handle
 
 # process peaks sequentially

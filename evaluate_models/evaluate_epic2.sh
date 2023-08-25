@@ -40,7 +40,7 @@ threshold() {
 
 # file I/O ------------------------------------------------------------------------------
 
-file=$(find data/epic2 -name "${sample}*Peak") # this workaround accommodates for narrowPeak and broadPeak inputs
+file=$(find data/epic2/runningDataFinal -name "${sample}*Peak") # this workaround accommodates for narrowPeak and broadPeak inputs
 
 # identify method,condition,replicate,mark
 method="epic2"

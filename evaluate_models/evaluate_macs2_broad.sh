@@ -40,7 +40,7 @@ threshold() {
 
 # file I/O ------------------------------------------------------------------------------
 
-file=$(find data/macs2 -name "${sample}*Peak") # this workaround accommodates for narrowPeak and broadPeak inputs
+file=$(find data/macs2/runningDataBroad -name "${sample}*Peak") # this workaround accommodates for narrowPeak and broadPeak inputs
 
 # identify method,condition,replicate,mark
 method="macs2_broad"
@@ -52,7 +52,7 @@ echo -e "method\tsignal\tTP\tFP\tFN\tTN\tprecision\trecall\tfpr\tf1" # header
 
 # create a new column with pval in decimal form. Sort by that new column.
 # identify all pvals within a sample.
-sample_file=$(awk -v OFS='\t' '{print $0,10**-$8}' $file | grep -vi "inf" | sort -rg -k10)
+sample_file=$(awk -v OFS='\t' '{print $0,10**-$9}' $file | grep -vi "inf" | sort -rg -k10)
 sample_pvals=$(echo "$sample_file" | cut -f10 | uniq)
 sample_file_handle="data/evaluate_models/macs2_${sample}.tmp.txt" # create tmp file to threshold from
 echo "$sample_file" > $sample_file_handle
